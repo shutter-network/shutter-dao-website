@@ -2,6 +2,10 @@
   "name": "beamer-bridge-merkle-drop-website",
   "version": "0.8.0",
   "private": true,
+  "resolutions": {
+    "fsevents": "^2.1.3",
+    "source-map": "^0.8.0-beta.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
@@ -42,8 +46,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
 
-    "start": "gatsby develop",
-    "build": "gatsby build"
+    "start": "NODE_OPTIONS=--openssl-legacy-provider  gatsby develop",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider  gatsby build"
   },
   "dependencies": {
     "autoprefixer": "^10.3.1",
