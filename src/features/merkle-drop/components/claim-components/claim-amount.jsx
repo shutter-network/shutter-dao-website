@@ -8,16 +8,15 @@ import { parseTokenAmount } from "../../../common/utils/math";
 
 function ClaimAmount({
   proof,
-  originalAmount,
-  currentAmount,
+  tokenAmount,
   onClaim,
   reset,
   chainState,
   wrongAccount,
 }) {
   const handleClaim = useCallback(() => {
-    onClaim(proof, originalAmount);
-  }, [onClaim, proof, originalAmount]);
+    onClaim(proof, tokenAmount);
+  }, [onClaim, proof, tokenAmount]);
 
   const canClaim =
     (chainState === CHAIN_STATE.CONNECTED ||
@@ -42,12 +41,9 @@ function ClaimAmount({
         </div>
         <div className="subtitle is-6 has-text-success">
           <span className="text-dark-green-darker font-semibold">
-            {parseTokenAmount(currentAmount)} {process.env.REACT_APP_TOKEN_SYMBOL}
+            {parseTokenAmount(tokenAmount)} {process.env.REACT_APP_TOKEN_SYMBOL}
           </span>{" "}
-          claimable out of original&nbsp;
-          <span className="text-app-blue font-semibold">
-            {parseTokenAmount(originalAmount)} {process.env.REACT_APP_TOKEN_SYMBOL}
-          </span>
+          claimable
         </div>
       </div>
       {chainState === CHAIN_STATE.DISCONNECTED && (

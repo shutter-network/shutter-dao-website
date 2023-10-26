@@ -39,8 +39,7 @@ function ClaimFlow() {
   const [internalState, setInternalState] = useState(STATE.INPUT);
   const [claimAddress, setClaimAddress] = useState("");
   const [proof, setProof] = useState([]);
-  const [currentClaimAmount, setCurrentClaimAmount] = useState("");
-  const [originalClaimAmount, setOriginalClaimAmount] = useState("");
+  const [tokenAmount, setTokenAmount] = useState("");
   const [claimedAmount, setClaimedAmount] = useState("");
   const web3Account = useAccount();
   const chainState = useChainState();
@@ -82,9 +81,9 @@ function ClaimFlow() {
       // Workaround to access current hash
       setTxHash(currentHash => {
         // Only process incoming confirmations if it is about current transaction
-        if (receipt.transactionHash === currentHash) {
+        if (String(receipt.transactionHash) === String(currentHash)) {
           if (
-            confirmationNumber === parseInt(process.env.REACT_APP_CONFIRMATIONS)
+            confirmationNumber >= parseInt(process.env.REACT_APP_CONFIRMATIONS)
           ) {
             setInternalState(STATE.CLAIM_END);
             setClaimedAmountByReceipt(receipt);
@@ -106,13 +105,12 @@ function ClaimFlow() {
     backend
       .fetchTokenEntitlement(address)
       .then(data => {
-        const { proof, currentTokenBalance, originalTokenBalance } = data;
-
-        // currentTokenBalance might be a string, to preserve precision
-        if (currentTokenBalance.toString() === "0") {
+        const { proof, tokens } = data;
+        // tokens might be a string, to preserve precision
+        if (tokens.toString() === "0") {
           setInternalState(STATE.NO_TOKENS);
         } else {
-          showProof(proof, currentTokenBalance, originalTokenBalance);
+          showProof(proof, tokens);
         }
       })
       .catch(error => {
@@ -155,7 +153,7 @@ function ClaimFlow() {
       try {
         await web3.claimTokens(
           claimAddress,
-          originalClaimAmount,
+          tokenAmount,
           proof,
           handleSign,
           handleConfirmation
@@ -180,7 +178,7 @@ function ClaimFlow() {
     }
   }, [
     claimAddress,
-    originalClaimAmount,
+    tokenAmount,
     proof,
     handleSign,
     handleConfirmation,
@@ -226,10 +224,9 @@ function ClaimFlow() {
     setInternalState(options.state);
   };
 
-  const showProof = (proof, currentClaimAmount, originalClaimAmount) => {
+  const showProof = (proof, tokens) => {
     setProof(proof);
-    setCurrentClaimAmount(currentClaimAmount);
-    setOriginalClaimAmount(originalClaimAmount);
+    setTokenAmount(tokens);
     setInternalState(STATE.SHOW_PROOF);
   };
 
@@ -261,8 +258,7 @@ function ClaimFlow() {
           <ClaimValid
             address={claimAddress}
             proof={proof}
-            currentAmount={currentClaimAmount}
-            originalAmount={originalClaimAmount}
+            tokenAmount={tokenAmount}
             onClaim={handleClaimRequest}
             reset={reset}
             chainState={chainState}
@@ -304,13 +300,12 @@ function ClaimFlow() {
     claimAddress,
     claimedAmount,
     confirmations,
-    currentClaimAmount,
+    tokenAmount,
     errorMessage,
     handleClaimRequest,
     handleDeclineTermsAndCondition,
     internalState,
     onAcceptTermsAndCondition,
-    originalClaimAmount,
     proof,
     requestTermsAndConditionsAcceptance,
     reset,

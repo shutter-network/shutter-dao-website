@@ -8,8 +8,7 @@ import ManualProofWrapper from "./manual-proof-wrapper";
 function ClaimValid({
   address,
   proof,
-  originalAmount,
-  currentAmount,
+  tokenAmount,
   onClaim,
   reset,
   chainState,
@@ -27,8 +26,7 @@ function ClaimValid({
       <div>
         <ClaimAmount
           proof={proof}
-          currentAmount={currentAmount}
-          originalAmount={originalAmount}
+          tokenAmount={tokenAmount}
           onClaim={onClaim}
           reset={reset}
           chainState={chainState}
@@ -41,7 +39,7 @@ function ClaimValid({
       <div>
         <ManualProofWrapper
           proof={proof}
-          amount={originalAmount}
+          amount={tokenAmount}
           requestTermsAndCondition={requestTermsAndCondition}
         />
       </div>
