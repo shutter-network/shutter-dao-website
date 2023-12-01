@@ -27,7 +27,7 @@ export function MerkleDropFaqs() {
         <div className="flex flex-row justify-center px-4">
           <div className="flex flex-col md:w-1/2">
             {CONTENTS.map((content, i) => (
-              <div className="md:py-0 py-4 md:mb-12">
+              <div className="md:py-0 py-4 md:mb-12" key={"question-"+i}>
                 <div className="flex flex-row items-center md:py-8">
                   <div className="mr-4">
                     <QuestionMark className="md:w-8 md:h-8 w-6 h-6" />

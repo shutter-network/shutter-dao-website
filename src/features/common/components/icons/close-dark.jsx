@@ -12,16 +12,16 @@ export function Close() {
       <rect width="44" height="44" rx="22" fill="#363636" />
       <path
         d="M28 16L16 28"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         stroke="#EDEDED"
       />
       <path
         d="M16 16L28 28"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         stroke="#EDEDED"
       />
     </svg>

@@ -18,7 +18,7 @@ export function FooterDark() {
                   key={`footer-link-${i}`}
                   href={item.href}
                   target={item.id || "_blank"}
-                  rel={!item.id && "noopener noreferrer"}
+                  rel={!item.id ? "noopener noreferrer" : ""}
                   className="md:mb-4 mb-1 text-grey text-base hover:text-majorelle-blue font-medium"
                 >
                   {item.label}

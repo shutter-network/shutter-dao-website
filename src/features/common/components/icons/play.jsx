@@ -17,9 +17,9 @@ export function Play(props) {
         <path
           d="M34 32L48 41L34 50V32Z"
           stroke="#F9F9F9"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
     </svg>

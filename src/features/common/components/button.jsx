@@ -1,7 +1,7 @@
 import React from "react";
 
-export function Button(props) {
-  const colorClassNames = props.isDark
+export function Button({isDark, ...props}) {
+  const colorClassNames = isDark
     ? "bg-rich-black-lighter text-off-white hover:bg-off-white hover:text-rich-black"
     : "bg-grey-lighter text-rich-black hover:bg-rich-black hover:text-white";
 
