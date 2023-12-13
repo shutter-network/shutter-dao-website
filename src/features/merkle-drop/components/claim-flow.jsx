@@ -10,6 +10,7 @@ import {
 } from "../../common/api/web3";
 
 import AddressInput from "./claim-components/address-input";
+import AddressDisplay from "./claim-components/address-display";
 import ClaimSuccess from "./claim-components/claim-success";
 import ClaimWait from "./claim-components/claim-wait";
 import ClaimStart from "./claim-components/claim-start";
@@ -22,6 +23,7 @@ import { Card } from "../../common/components/card";
 import { QuestionMark } from "../../common/components/icons/question-mark";
 import NoTokens from "./claim-components/no-tokens";
 import ClaimValid from "./claim-components/claim-valid";
+import Claims from "./claim-components/claims";
 
 const STATE = {
   INPUT: "input",
@@ -35,12 +37,32 @@ const STATE = {
   ERROR: "error",
 };
 
+// type Vesting = {
+//   account: string,
+//   amount: string,
+//   chainId: string,
+//   contract: string,
+//   curve: number,
+//   durationWeeks: number,
+//   initialUnlock: number,
+//   proof: string[],
+//   startDate: number,
+//   tag: string,
+//   vestingId: string,
+
+// }
+
 function ClaimFlow() {
   const [internalState, setInternalState] = useState(STATE.INPUT);
   const [claimAddress, setClaimAddress] = useState("");
   const [proof, setProof] = useState([]);
   const [tokenAmount, setTokenAmount] = useState("");
+  // const [curve, setCurve] = useState(0);
+  // const [durationWeeks, setDurationWeeks] = useState(0);
+  // const [startDate, setStartDate] = useState(0);
+  // const [initialUnlock, setInitialUnlock] = useState(0);
   const [claimedAmount, setClaimedAmount] = useState("");
+  const [vestings, setVestings] = useState([]);
   const web3Account = useAccount();
   const chainState = useChainState();
   const [txHash, setTxHash] = useState("");
@@ -80,6 +102,7 @@ function ClaimFlow() {
     (confirmationNumber, receipt) => {
       // Workaround to access current hash
       setTxHash(currentHash => {
+        console.log(receipt)
         // Only process incoming confirmations if it is about current transaction
         if (String(receipt.transactionHash) === String(currentHash)) {
           if (
@@ -105,13 +128,17 @@ function ClaimFlow() {
     backend
       .fetchTokenEntitlement(address)
       .then(data => {
-        const { proof, tokens } = data;
-        // tokens might be a string, to preserve precision
-        if (tokens.toString() === "0") {
-          setInternalState(STATE.NO_TOKENS);
-        } else {
-          showProof(proof, tokens);
+        if(data.length > 0) {
+          setVestings(data);
+          setInternalState(STATE.SHOW_PROOF);
         }
+        // const { amount } = data[0];
+        // // tokens might be a string, to preserve precision
+        // if (amount.toString() === "0") {
+        //   setInternalState(STATE.NO_TOKENS);
+        // } else {
+        //   showProof(data[0]);
+        // }
       })
       .catch(error => {
         console.error(error);
@@ -127,7 +154,7 @@ function ClaimFlow() {
       });
   }, []);
 
-  const claim = useCallback(async () => {
+  const claim = useCallback(async (vestingId) => {
     setInternalState(STATE.CLAIM_START);
     if (!(await requestPermission())) {
       showError(
@@ -151,9 +178,20 @@ function ClaimFlow() {
       );
     } else {
       try {
-        await web3.claimTokens(
+        console.log(claimAddress,
+          tokenAmount,
+          curve,
+          durationWeeks,
+          startDate,
+          initialUnlock,
+          proof);
+        await web3.redeem(
           claimAddress,
           tokenAmount,
+          curve,
+          durationWeeks,
+          startDate,
+          initialUnlock,
           proof,
           handleSign,
           handleConfirmation
@@ -224,11 +262,17 @@ function ClaimFlow() {
     setInternalState(options.state);
   };
 
-  const showProof = (proof, tokens) => {
-    setProof(proof);
-    setTokenAmount(tokens);
-    setInternalState(STATE.SHOW_PROOF);
-  };
+  // const showProof = (data) => {
+  //   const { proof,  amount, curve, durationWeeks, startDate, initialUnlock } = data;
+  //   console.log(data)
+  //   setProof(proof);
+  //   setTokenAmount(amount);
+  //   setCurve(curve);
+  //   setDurationWeeks(durationWeeks);
+  //   setStartDate(startDate);
+  //   setInitialUnlock(initialUnlock || 0);
+  //   setInternalState(STATE.SHOW_PROOF);
+  // };
 
   let wrongAccountSelected = false;
 
@@ -255,19 +299,13 @@ function ClaimFlow() {
         return <NoTokens reset={reset} claimAddress={claimAddress} />;
       case STATE.SHOW_PROOF:
         return (
-          <ClaimValid
-            address={claimAddress}
-            proof={proof}
-            tokenAmount={tokenAmount}
-            onClaim={handleClaimRequest}
-            reset={reset}
-            chainState={chainState}
-            wrongAccount={wrongAccountSelected}
-            onReject={handleDeclineTermsAndCondition}
-            onAccept={onAcceptTermsAndCondition}
-            requestTermsAndCondition={requestTermsAndConditionsAcceptance}
-            showTermsAndConditionsModal={showTermsAndConditionsModal}
-          />
+          <>
+            <div>
+            <AddressDisplay address={claimAddress} />
+            </div>
+          <Claims vestings={vestings} account={claimAddress}/>
+          </>
+          
         );
       case STATE.CLAIM_START:
         return <ClaimStart />;
