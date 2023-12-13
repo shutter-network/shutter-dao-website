@@ -32,7 +32,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "start": "gatsby develop",
-    "build": "gatsby build"
+    "build": "gatsby build",
+    "generate-abis": "ts-node ./scripts/gen.ts src/features/common/abi"
   },
   "dependencies": {
     "autoprefixer": "^10.4.16",

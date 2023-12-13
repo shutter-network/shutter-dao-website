@@ -1,0 +1,6 @@
+[
+    "./abis/airdrop.json",
+    "./abis/token.json",
+    "./abis/VestingPool.json",
+    "./abis/VestingPoolManager.json"
+]
