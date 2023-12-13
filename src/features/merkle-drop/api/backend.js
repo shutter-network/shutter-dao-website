@@ -1,6 +1,6 @@
 export async function fetchTokenEntitlement(address) {
   const response = await fetch(
-    process.env.REACT_APP_API_URL + address.toString()
+    process.env.REACT_APP_API_URL + address.toString() + '.json',
   );
   const data = await response.json();
   if (!response.ok) {
