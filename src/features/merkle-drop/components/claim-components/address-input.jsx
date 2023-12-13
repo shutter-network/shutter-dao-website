@@ -60,13 +60,14 @@ function AddressInput(props) {
               >
                 <input
                   className="bg-card-colors-input_grey ml-2 pl-2 w-full rounded-full placeholder-grey-darker text-sm md:text-base font-medium"
-                  autoComplete="off"
+                  // autoComplete="off"
                   spellCheck="false"
                   type="text"
                   value={address}
                   onChange={handleChange}
                   placeholder="Enter ETH Address (0x...)"
                   autoFocus={props.autoFocus}
+                  name={"address"}
                   required
                 />
                 <div className="mr-2">
