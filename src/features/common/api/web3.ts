@@ -60,7 +60,8 @@ export async function fetchBalance(address) {
 }
 
 export async function verifyChainId(chainId) {
-  return (await web3.eth.getChainId()) === parseInt(chainId);
+  console.log("chainid", await web3.eth.getChainId(), BigInt(chainId));
+  return (await web3.eth.getChainId()) === BigInt(chainId);
 }
 
 /// Queries the default account. Returns undefined if wallet locked, or if website has no permission to query.
