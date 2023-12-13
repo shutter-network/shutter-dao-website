@@ -9,7 +9,7 @@ export function MerkleDropIntroduction() {
         <div className="flex-1 px-4">
           <div>
             <h1 className="md:text-5xl text-4xl leading-tight my-8 text-off-white font-semibold pr-28 md:pr-28">
-              Introducing the Beamer Bridge Merkle Drop
+              Introducing the Shutter  Merkle Drop
             </h1>
           </div>
         </div>

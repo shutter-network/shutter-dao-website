@@ -4,10 +4,10 @@ import { ArrowDownRight } from "../../common/components/icons/arrow-down-right";
 
 const CONTENTS = [
   {
-    question: "What is the Beamer Bridge Merkle drop?",
+    question: "What is the Shutter  Merkle drop?",
     answer: (
       <div>
-        The Beamer Bridge Merkle drop is a token distribution for the Beamer Bridge Token.
+        The Shutter  Merkle drop is a token distribution for the Shutter  Token.
       </div>
     ),
   },
