@@ -36,8 +36,9 @@ export async function requestPermission() {
   // Modern dapp browsers...
   if (window.ethereum) {
     try {
+      await window.ethereum.request({ method: 'eth_requestAccounts' })
       // Request account access if needed
-      await window.ethereum.enable();
+      // await window.ethereum.enable();
       return true;
     } catch (error) {
       // User denied account access...

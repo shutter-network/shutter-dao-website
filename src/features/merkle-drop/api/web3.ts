@@ -1,14 +1,17 @@
-// import getWeb3 from "../../common/api/web3";
 import MerkleDropABI from "../../common/abi/airdrop";
 import VestingPoolManagerABI from "../../common/abi/VestingPoolManager";
 import VestingPoolABI from "../../common/abi/VestingPool";
 import TokenABI from "../../common/abi/token";
-import Web3, { Contract, EventLog, Receipt } from "web3";
+import { Contract, EventLog, Receipt, Web3 } from "web3";
+import { default as metamaskWeb3 } from "../../common/api/web3";
 
+type ConfirmationType = { confirmations: bigint; receipt: Receipt };
 let web3Initialized: null | Web3 = null;
 const getWeb3 = (): Web3 => {
   if (!web3Initialized) {
-    web3Initialized = new Web3(process.env.REACT_APP_WEB3_PROVIDER_URL);
+    web3Initialized = new Web3(
+      process.env.REACT_APP_WEB3_PROVIDER_URL as string
+    );
   }
   return web3Initialized;
 };
@@ -21,32 +24,71 @@ export async function getTokenContract(
   return tokenContract;
 }
 
-export async function getUserVestingPool(
-  address: string
-): Promise<Contract<typeof VestingPoolABI>> {
-  const web3 = getWeb3();
-
-  const merkleDropContract = await getMerkleDropContract();
-
-  const vestingPoolManagerAddress = (await merkleDropContract.methods
-    .vestingPoolManager()
-    .call()) as string;
-
-  const vestingPoolManagerContract = await getVestingPoolManagerContract(vestingPoolManagerAddress);
-
-  const userPool = await vestingPoolManagerContract.methods
-    .getVestingPool(address)
-    .call();
-
-  const userPoolContract = new web3.eth.Contract(VestingPoolABI, userPool);
-
-  return userPoolContract;
+export async function approve(
+  tokenAddress: string,
+  sender: string,
+  amount: string,
+  spender: string,
+  onSign?: (hash: string) => void,
+  onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
+  onError?: (error: any) => void
+): Promise<any> {
+  const web3 = metamaskWeb3();
+  const tokenContract = await new web3.eth.Contract(TokenABI, tokenAddress);
+  try {
+    return await tokenContract.methods
+      .approve(spender, amount)
+      .send({
+        from: sender,
+      })
+      .on("transactionHash", (hash: string) => onSign && onSign(hash))
+      .on(
+        "confirmation",
+        ({ confirmations, receipt }: ConfirmationType) =>
+          onConfirmation && onConfirmation(confirmations, receipt)
+      )
+      .on("error", (error: any) => handleError(error, onError));
+  } catch (error: any) {
+    if (onError) {
+      onError(error);
+    } else {
+      handleError(error);
+    }
+  }
 }
 
-const getVestingPoolManagerContract = async (
+export async function getUserVestingPool(
   address: string
+): Promise<Contract<typeof VestingPoolABI> | null> {
+  const web3 = getWeb3();
+
+  const vestingPoolManagerContract = await getVestingPoolManagerContract();
+
+  try {
+    const userPool = await vestingPoolManagerContract.methods
+      .getVestingPool(address)
+      .call();
+    const userPoolContract = new web3.eth.Contract(VestingPoolABI, userPool);
+    return userPoolContract;
+  } catch (error) {
+    console.log("error in getUserVestingPool", error);
+  }
+
+  return null;
+}
+
+const getUserPoolContract = async (address: string) => {
+  const web3 = getWeb3();
+  const userPoolContract = new web3.eth.Contract(VestingPoolABI, address);
+  return userPoolContract;
+};
+
+const getVestingPoolManagerContract = async (
+  address?: string
 ): Promise<Contract<typeof VestingPoolManagerABI>> => {
   const web3 = getWeb3();
+
+  address = address || process.env.REACT_APP_VESTING_POOL_MANAGER;
 
   const vestingPoolManagerContract = new web3.eth.Contract(
     VestingPoolManagerABI,
@@ -58,43 +100,23 @@ const getVestingPoolManagerContract = async (
 
 export async function getVestingData(
   address: string,
-  vestingId: string,
-  airdropAddress: string
+  vestingId: string
 ): Promise<any> {
   const userPoolContract = await getUserVestingPool(address);
+
+  if (!userPoolContract) {
+    return null;
+  }
 
   const vesting = await userPoolContract.methods.vestings(vestingId).call();
 
   return vesting;
 }
 
-export async function redeem(
-  address: string,
-  amount: number,
-  curveType: number,
-  durationWeeks: number,
-  startDate: number,
-  initialUnlock: number,
-  proof: string[],
-  onSign?: (hash: string) => void,
-  onConfirmation?: (confirmations: bigint, receipt: Receipt) => void
-): Promise<any> {
-  const merkleDropContract = await getMerkleDropContract();
-
-  try {
-    return await merkleDropContract.methods
-      .redeem(curveType, durationWeeks, startDate, amount, initialUnlock, proof)
-      .send({
-        from: address,
-      })
-      .on("transactionHash", (hash: string) => onSign && onSign(hash))
-      .on(
-        "confirmation",
-        ({confirmations, receipt}) =>
-          onConfirmation && onConfirmation(confirmations, receipt)
-      );
-  } catch (error: any) {
-    // As there seem to be no common error format, this is the best we can do
+function handleError(error: any, onError?: (error: any) => void) {
+  if (onError) {
+    onError(error);
+  } else {
     if (error.message.includes("revert")) {
       throw new TransactionRevertedError(error.message);
     } else if (error.message.includes("denied")) {
@@ -105,58 +127,83 @@ export async function redeem(
   }
 }
 
-export async function getClaimedTokenAmountByReceipt(receipt: Receipt) {
-  const withdrawEventsInBlock = await getWithdrawEventsInBlock(
-    receipt.blockNumber as number
-  );
-  const withdrawEventsByTransaction = filterEventsByTransaction(
-    withdrawEventsInBlock,
-    receipt.transactionHash as string
-  );
-  throwIfNoSingleEvent(withdrawEventsByTransaction);
-  return parseWithdrawEventTokenAmount(withdrawEventsByTransaction[0]);
-}
-
-async function getWithdrawEventsInBlock(blockNumber: number) {
-  const merkleDropContract = getMerkleDropContract();
-  const eventFilter = {
-    fromBlock: blockNumber,
-    toBlock: blockNumber,
-  };
-
-  return await merkleDropContract.getPastEvents("Withdraw", eventFilter);
-}
-
-function filterEventsByTransaction(
-  events: EventLog[],
-  transactionHash: string
+export async function delegateTokens(
+  poolAddress: string,
+  from: string,
+  to: string,
+  onSign?: (hash: string) => void,
+  onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
+  onError?: (error: any) => void
 ) {
-  return events.filter((e) => e.transactionHash === transactionHash);
-}
+  const web3 = metamaskWeb3();
 
-function throwIfNoSingleEvent(events: EventLog[]) {
-  if (events.length !== 1) {
-    throw new ParseWithdrawEventError(
-      "Could not find a single withdraw event for given receipt."
-    );
+  const userVestingPool = new web3.eth.Contract(VestingPoolABI, poolAddress);
+
+  if (!userVestingPool) {
+    throw new Error("No vesting pool found for user");
+  }
+
+  try {
+    return await userVestingPool.methods
+      .delegateTokens(to)
+      .send({
+        from,
+      })
+      .on("transactionHash", (hash: string) => onSign && onSign(hash))
+      .on(
+        "confirmation",
+        ({ confirmations, receipt }: ConfirmationType) =>
+          onConfirmation && onConfirmation(confirmations, receipt)
+      )
+      .on("error", (error: any) => handleError(error, onError));
+  } catch (error: any) {
+    handleError(error, onError);
+  }
+}
+export async function redeem(
+  address: string,
+  amount: string,
+  curveType: number,
+  durationWeeks: number,
+  startDate: number,
+  initialUnlock: number,
+  proof: string[],
+  merkleDropAddress: string,
+  onSign?: (hash: string) => void,
+  onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
+  onError?: (error: any) => void
+): Promise<any> {
+  const web3 = metamaskWeb3();
+
+  const merkleDropContract = new web3.eth.Contract(
+    MerkleDropABI,
+    merkleDropAddress
+  );
+
+  try {
+    return await merkleDropContract.methods
+      .redeem(curveType, durationWeeks, startDate, amount, initialUnlock, proof)
+      .send({
+        from: address,
+      })
+      .on("transactionHash", (hash: string) => onSign && onSign(hash))
+      .on(
+        "confirmation",
+        ({ confirmations, receipt }: ConfirmationType) =>
+          onConfirmation && onConfirmation(confirmations, receipt)
+      )
+      .on("error", (error: any) => handleError(error, onError));
+  } catch (error: any) {
+    handleError(error, onError);
   }
 }
 
-function parseWithdrawEventTokenAmount(withdrawEvent: EventLog) {
-  window._myEvent = withdrawEvent;
-  // This event argument has the type BigNumber.
-  // We convert it to a String for an unified handling of amount values
-  // (like by the backend) to enable further processing.
-  return withdrawEvent.returnValues.value.toString();
-}
-
-async function getMerkleDropContract(): Promise<Contract<typeof MerkleDropABI>> {
+export async function getMerkleDropContract(
+  address: string
+): Promise<Contract<typeof MerkleDropABI>> {
   const web3 = getWeb3();
-  // TODO: Theoretically, web3 could be undefined here. Should not happen, but might. Handle?
-  const contract = new web3.eth.Contract(
-    MerkleDropABI,
-    process.env.REACT_APP_MERKLE_DROP_ADDRESS
-  );
+
+  const contract = new web3.eth.Contract(MerkleDropABI, address);
   return contract;
 }
 

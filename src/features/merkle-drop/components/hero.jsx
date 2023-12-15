@@ -1,6 +1,7 @@
 import React from "react";
 
 import ClaimFlow from "./claim-flow";
+import { StateProvider } from "../../../store/provider";
 
 export function MerkleDropHero() {
   return (
@@ -10,10 +11,12 @@ export function MerkleDropHero() {
           <h1 className="md:text-6xl text-5xl font-semibold leading-tight mb-10 text-off-white">
             Merkle Drop
           </h1>
-          <p className="text-2xl text-grey-darker">Claim your Shutter  Tokens</p>
+          <p className="text-2xl text-grey-darker">Claim your Shutter Tokens</p>
         </div>
-        <div className="flex-1">
-          <ClaimFlow />
+        <div className="flex-1 max-w-lg">
+          <StateProvider>
+            <ClaimFlow />
+          </StateProvider>
         </div>
       </div>
     </section>

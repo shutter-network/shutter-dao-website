@@ -1,13 +1,18 @@
 export async function fetchTokenEntitlement(address) {
   const response = await fetch(
-    process.env.REACT_APP_API_URL + address.toString() + '.json',
+    process.env.REACT_APP_API_URL + address.toString() + '.json'
   );
-  const data = await response.json();
+
   if (!response.ok) {
-    const error = new Error(data.message);
-    error.code = SERVER_ERROR_CODE;
-    throw error;
+    if(response.status === 404) {
+      return []
+    } else {
+      const error = new Error(data.message);
+      error.code = SERVER_ERROR_CODE;
+      throw error;
+    }
   } else {
+    const data = await response.json();
     return data;
   }
 }

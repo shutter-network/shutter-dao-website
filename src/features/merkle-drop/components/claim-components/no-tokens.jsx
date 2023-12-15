@@ -13,7 +13,7 @@ function NoTokens({ claimAddress, reset }) {
         </Message>
       </div>
       <div className="py-2">
-        <RetryButton reset={reset} />
+        <RetryButton reset={reset} showText={true} />
       </div>
     </div>
   );

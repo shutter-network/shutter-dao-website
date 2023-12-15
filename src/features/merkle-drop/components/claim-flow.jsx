@@ -1,13 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import * as backend from "../api/backend";
-import * as web3 from "../api/web3";
-import {
-  getDefaultAccount,
-  requestPermission,
-  sameAddress,
-  verifyChainId,
-} from "../../common/api/web3";
+import { sameAddress } from "../../common/api/web3";
 
 import AddressInput from "./claim-components/address-input";
 import AddressDisplay from "./claim-components/address-display";
@@ -22,8 +16,8 @@ import { useAccount } from "../../common/hooks/account";
 import { Card } from "../../common/components/card";
 import { QuestionMark } from "../../common/components/icons/question-mark";
 import NoTokens from "./claim-components/no-tokens";
-import ClaimValid from "./claim-components/claim-valid";
-import Claims from "./claim-components/claims";
+import Claims from "./vestings/vestings";
+import RetryButton from "./claim-components/retry-button";
 
 const STATE = {
   INPUT: "input",
@@ -37,30 +31,11 @@ const STATE = {
   ERROR: "error",
 };
 
-// type Vesting = {
-//   account: string,
-//   amount: string,
-//   chainId: string,
-//   contract: string,
-//   curve: number,
-//   durationWeeks: number,
-//   initialUnlock: number,
-//   proof: string[],
-//   startDate: number,
-//   tag: string,
-//   vestingId: string,
-
-// }
-
 function ClaimFlow() {
   const [internalState, setInternalState] = useState(STATE.INPUT);
   const [claimAddress, setClaimAddress] = useState("");
   const [proof, setProof] = useState([]);
   const [tokenAmount, setTokenAmount] = useState("");
-  // const [curve, setCurve] = useState(0);
-  // const [durationWeeks, setDurationWeeks] = useState(0);
-  // const [startDate, setStartDate] = useState(0);
-  // const [initialUnlock, setInitialUnlock] = useState(0);
   const [claimedAmount, setClaimedAmount] = useState("");
   const [vestings, setVestings] = useState([]);
   const web3Account = useAccount();
@@ -68,58 +43,8 @@ function ClaimFlow() {
   const [txHash, setTxHash] = useState("");
   const [confirmations, setConfirmations] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const [onAcceptTermsAndCondition, setOnAcceptTermsAndCondition] = useState(
-    () => () => {}
-  );
-  const [
-    handleDeclineTermsAndCondition,
-    setOnDeclineTermsAndCondition,
-  ] = useState(() => () => {});
-  const [acceptedTermsAndCondition, setAcceptedTermsAndCondition] = useState(
-    false
-  );
-  const [
-    showTermsAndConditionsModal,
-    setShowTermsAndConditionsModal,
-  ] = useState(false);
 
-  const handleSign = useCallback(hash => {
-    setTxHash(hash);
-    setInternalState(STATE.CLAIM_WAIT);
-  }, []);
-
-  const setClaimedAmountByReceipt = useCallback(
-    async receipt => {
-      const claimedTokenAmountByReceipt = await web3.getClaimedTokenAmountByReceipt(
-        receipt
-      );
-      setClaimedAmount(claimedTokenAmountByReceipt);
-    },
-    [setClaimedAmount]
-  );
-
-  const handleConfirmation = useCallback(
-    (confirmationNumber, receipt) => {
-      // Workaround to access current hash
-      setTxHash(currentHash => {
-        console.log(receipt)
-        // Only process incoming confirmations if it is about current transaction
-        if (String(receipt.transactionHash) === String(currentHash)) {
-          if (
-            confirmationNumber >= parseInt(process.env.REACT_APP_CONFIRMATIONS)
-          ) {
-            setInternalState(STATE.CLAIM_END);
-            setClaimedAmountByReceipt(receipt);
-          }
-          setConfirmations(confirmationNumber);
-        }
-        return currentHash;
-      });
-    },
-    [setClaimedAmountByReceipt]
-  );
-
-  const submit = useCallback(address => {
+  const submit = useCallback((address) => {
     showError(
       "In order to claim your tokens you have to give this site permission to your wallet."
     );
@@ -127,20 +52,15 @@ function ClaimFlow() {
     setClaimAddress(address);
     backend
       .fetchTokenEntitlement(address)
-      .then(data => {
-        if(data.length > 0) {
+      .then((data) => {
+        if (data.length > 0) {
           setVestings(data);
           setInternalState(STATE.SHOW_PROOF);
+        } else {
+          setInternalState(STATE.NO_TOKENS);
         }
-        // const { amount } = data[0];
-        // // tokens might be a string, to preserve precision
-        // if (amount.toString() === "0") {
-        //   setInternalState(STATE.NO_TOKENS);
-        // } else {
-        //   showProof(data[0]);
-        // }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         if (error.code === backend.SERVER_ERROR_CODE) {
           showError(
@@ -154,102 +74,6 @@ function ClaimFlow() {
       });
   }, []);
 
-  const claim = useCallback(async (vestingId) => {
-    setInternalState(STATE.CLAIM_START);
-    if (!(await requestPermission())) {
-      showError(
-        "In order to claim your tokens you have to give this site permission to your wallet."
-      );
-    }
-    // We can not use the web3Account state variable, since this gets updated
-    // by an interval and might not be correct at this point in time.
-    else if (!sameAddress(await getDefaultAccount(), claimAddress)) {
-      showError(
-        `The selected account in your Web3 enabled browser does not match
-               the merkle drop address and you can only claim the tokens for an
-               account you control. To claim your tokens,
-               please change the account of your Web3
-               enabled browser or MetaMask plugin, or try a different address.`
-      );
-    } else if (!(await verifyChainId(process.env.REACT_APP_CHAIN_ID))) {
-      showError(
-        `You are connected to the wrong chain. To claim your tokens please connect
-        to the ${process.env.REACT_APP_CHAIN_NAME}`
-      );
-    } else {
-      try {
-        console.log(claimAddress,
-          tokenAmount,
-          curve,
-          durationWeeks,
-          startDate,
-          initialUnlock,
-          proof);
-        await web3.redeem(
-          claimAddress,
-          tokenAmount,
-          curve,
-          durationWeeks,
-          startDate,
-          initialUnlock,
-          proof,
-          handleSign,
-          handleConfirmation
-        );
-      } catch (error) {
-        console.error(error);
-        if (error.code === web3.TRANSACTION_REVERTED_ERROR_CODE) {
-          showError(
-            "Your transaction have been reverted. Did you try to claim your tokens twice?",
-            {
-              state: STATE.TRANSACTION_FAILED,
-            }
-          );
-        } else if (error.code === web3.USER_REJECTED_ERROR_CODE) {
-          setInternalState(STATE.SHOW_PROOF);
-        } else {
-          showError("Something went wrong with your transaction.", {
-            state: STATE.TRANSACTION_FAILED,
-          });
-        }
-      }
-    }
-  }, [
-    claimAddress,
-    tokenAmount,
-    proof,
-    handleSign,
-    handleConfirmation,
-  ]);
-
-  const requestTermsAndConditionsAcceptance = useCallback(() => {
-    return new Promise(resolve => {
-      if (acceptedTermsAndCondition) {
-        resolve(true);
-      } else {
-        // We need a function to return a function, as react treats functions special
-        setOnAcceptTermsAndCondition(() => () => {
-          setShowTermsAndConditionsModal(false);
-          setAcceptedTermsAndCondition(true);
-          resolve(true);
-        });
-        // We need a function to return a function, as react treats functions special
-        setOnDeclineTermsAndCondition(() => () => {
-          setShowTermsAndConditionsModal(false);
-          resolve(false);
-        });
-        setShowTermsAndConditionsModal(true);
-      }
-    });
-  }, [acceptedTermsAndCondition]);
-
-  const handleClaimRequest = useCallback(async () => {
-    const acceptedTermsAndCondition = await requestTermsAndConditionsAcceptance();
-    if (acceptedTermsAndCondition) {
-      claim();
-    }
-  }, [claim, requestTermsAndConditionsAcceptance]);
-
   const reset = useCallback(() => {
     setConfirmations(0);
     setErrorMessage("");
@@ -261,18 +85,6 @@ function ClaimFlow() {
     setErrorMessage(errorMessage);
     setInternalState(options.state);
   };
-
-  // const showProof = (data) => {
-  //   const { proof,  amount, curve, durationWeeks, startDate, initialUnlock } = data;
-  //   console.log(data)
-  //   setProof(proof);
-  //   setTokenAmount(amount);
-  //   setCurve(curve);
-  //   setDurationWeeks(durationWeeks);
-  //   setStartDate(startDate);
-  //   setInitialUnlock(initialUnlock || 0);
-  //   setInternalState(STATE.SHOW_PROOF);
-  // };
 
   let wrongAccountSelected = false;
 
@@ -300,12 +112,23 @@ function ClaimFlow() {
       case STATE.SHOW_PROOF:
         return (
           <>
-            <div>
-            <AddressDisplay address={claimAddress} />
+            <div className="flex-1 flex-row">
+              <div
+                className={`flex flex-row items-center w-full rounded-full  h-12 my-4`}
+              >
+                <AddressDisplay address={claimAddress} />
+
+                <div className="flex flex-row items-center">
+                  <RetryButton reset={reset} />
+                </div>
+              </div>
             </div>
-          <Claims vestings={vestings} account={claimAddress}/>
+            {vestings.length > 0 ? (
+              <Claims vestings={vestings} account={claimAddress} />
+            ) : (
+              <div>no vestings for this address. </div>
+            )}
           </>
-          
         );
       case STATE.CLAIM_START:
         return <ClaimStart />;
@@ -340,14 +163,9 @@ function ClaimFlow() {
     confirmations,
     tokenAmount,
     errorMessage,
-    handleClaimRequest,
-    handleDeclineTermsAndCondition,
     internalState,
-    onAcceptTermsAndCondition,
     proof,
-    requestTermsAndConditionsAcceptance,
     reset,
-    showTermsAndConditionsModal,
     submit,
     txHash,
     wrongAccountSelected,
