@@ -1,6 +1,6 @@
-# Beamer Bridge Merkle Drop
+# Shutter DAO Merkle Drop website
 
-These are the sources for a Beamer Bridge Merkle Drop website.
+These are the sources for a Shutter DAO Merkle Drop website.
 
 The website is built with the static site generator Gatsby.
 
