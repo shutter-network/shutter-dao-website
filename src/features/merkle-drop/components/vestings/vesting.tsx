@@ -23,6 +23,18 @@ export type VestingType = {
   vestingId: string;
 };
 
+export type VestingOnchainType = {
+  amount: bigint;
+  amountClaimed: bigint;
+  cancelled: boolean;
+  curveType: bigint;
+  durationWeeks: bigint;
+  initialUnlock: bigint;
+  managed: boolean;
+  pausingDate: bigint;
+  startDate: bigint;
+};
+
 export const Vesting = ({
   vesting,
   index,
@@ -39,7 +51,7 @@ export const Vesting = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const updateVestingInfo = async () => {
-    const data = await getVestingData(vesting.account, vesting.vestingId);
+    const data:VestingOnchainType = await getVestingData(vesting.account, vesting.vestingId);
 
     if (data && data.amount !== 0n) {
       dispatch({

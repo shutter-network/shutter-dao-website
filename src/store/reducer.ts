@@ -1,5 +1,5 @@
 import React, { useReducer, createContext, useContext } from "react";
-import { VestingType } from "../features/merkle-drop/components/vestings/vesting";
+import { type VestingOnchainType } from "../features/merkle-drop/components/vestings/vesting";
 
 export type State = {
   accounts: {
@@ -10,7 +10,7 @@ export type State = {
     };
   };
   vestings: {
-    [vestingId: string]: VestingType;
+    [vestingId: string]: VestingOnchainType;
   };
 };
 
@@ -26,7 +26,7 @@ export type Action = {
     type: "update_vesting_info";
     payload: {
         vestingId: string;
-        vesting: VestingType;
+        vesting: VestingOnchainType;
     };
 }
 
