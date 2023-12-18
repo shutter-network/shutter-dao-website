@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { getTokenContract, getUserVestingPool } from "../../api/web3";
 import React from "react";
-import { parseTokenAmount } from "../../../common/utils/math";
+import {
+  formatTokenAmount,
+  parseTokenAmount,
+} from "../../../common/utils/math";
 import { DelegateTokens } from "./delete-tokens";
 import { useStateValue } from "../../../../store/hook";
 import { LinkToAddress } from "../../../common/components/link-to-address";
 import { ZERO_ADDRESS } from "../../../common/constants";
+import { getTokenSymbol } from "../../../common/utils/token";
 
 export const VestingPoolInfo = ({ account }: { account: string }) => {
   const [state, dispatch] = useStateValue();
@@ -35,6 +39,7 @@ export const VestingPoolInfo = ({ account }: { account: string }) => {
     return null;
   }
 
+  console.log("delegatee", delegatee);
   return (
     <>
       <div className="mt-2 text-sm text-green-700">
@@ -42,14 +47,19 @@ export const VestingPoolInfo = ({ account }: { account: string }) => {
           <li>
             Contract address: <LinkToAddress address={pool} />
           </li>
-          <li>Contract balance: {parseTokenAmount(balance)}</li>
           <li>
-            Tokens delegated to:{" "}
-            {delegatee ? (
-              <LinkToAddress address={delegatee} />
-            ) : (
-              ZERO_ADDRESS
-            )}
+            Contract balance:{" "}
+            {formatTokenAmount(parseTokenAmount(balance))}
+          </li>
+          <li>
+            <div className="flex flex-row">
+              Tokens delegated to:{" "}
+              {delegatee && delegatee !== ZERO_ADDRESS ? (
+                <LinkToAddress address={delegatee} />
+              ) : (
+                <div className="ml-1">Not delegated yet.</div>
+              )}
+            </div>
           </li>
         </ul>
       </div>

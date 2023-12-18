@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { type VestingType, type VestingOnchainType } from "./vesting";
-import { convertToWei, parseTokenAmount } from "../../../common/utils/math";
+import { convertToWei, formatTokenAmount, parseTokenAmount } from "../../../common/utils/math";
 import { Modal } from "../../../common/components/modal";
 import {
   claimTokens as claimTokensOnPool,
@@ -11,6 +11,7 @@ import { useAccount } from "../../../common/hooks/account";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { isEthAddress } from "../../../common/utils/address";
 import { SpinIcon } from "../../../common/components/spin-icon";
+import { getTokenSymbol } from "../../../common/utils/token";
 
 const tokenAddress = process.env.REACT_APP_SHU_TOKEN_CONTRACT_ADDRESS;
 const ClaimableAmount = ({
@@ -140,7 +141,6 @@ const ClaimableAmount = ({
 
   const modalBody = (
     <>
-      <p>{parseTokenAmount(claimableAmount)}</p>
       <div className="mt-2 grid grid-cols-1">
         <div className="col-span-full">
           <label
@@ -154,7 +154,6 @@ const ClaimableAmount = ({
               type="text"
               value={tokensToClaim}
               onChange={(e) => {
-                console.log("e.target.value", e.target.value);
                 setTokensToClaim(e.target.value);
               }}
               className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -185,7 +184,6 @@ const ClaimableAmount = ({
               type="text"
               value={beneficiary}
               onChange={(e) => {
-                console.log("e.target.value", e.target.value);
                 setBeneficiary(e.target.value);
               }}
               className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -240,7 +238,7 @@ const ClaimableAmount = ({
   );
   return (
     <div className={`flex ${tokenPaused ? "flex-col" : "flex-row"}`}>
-      <p className="mt-1 mr-2">{parseTokenAmount(claimableAmount)}</p>
+      <p className="mt-1 mr-2">{formatTokenAmount(parseTokenAmount(claimableAmount))}</p>
       {tokenPaused ? (
         <>
           {tokenPaused && (

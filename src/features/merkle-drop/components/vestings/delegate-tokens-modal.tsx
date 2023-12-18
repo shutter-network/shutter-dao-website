@@ -10,6 +10,7 @@ import { useStateValue } from "../../../../store/hook";
 import { SpinIcon } from "../../../common/components/spin-icon";
 import { isEthAddress } from "../../../common/utils/address";
 import { Modal } from "../../../common/components/modal";
+import { getTokenSymbol } from "../../../common/utils/token";
 
 function DelegateTokensModal({
   poolAddress,
@@ -98,7 +99,7 @@ function DelegateTokensModal({
             <div className="mt-2">
               <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                 <span className="block flex select-none items-center  py-1.5 px-3 text-gray-500 sm:text-sm">
-                  {parseTokenAmount(poolBalance)}
+                  {parseTokenAmount(poolBalance)}{" "}{getTokenSymbol()}
                 </span>
               </div>
             </div>
@@ -118,9 +119,9 @@ function DelegateTokensModal({
                   type="text"
                   value={delegateTo}
                   onChange={(e) => {
-                    console.log("e.target.value", e.target.value);
                     setDelegateTo(e.target.value);
                   }}
+                  placeholder="0x..."
                   className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
                 />
               </div>
@@ -166,7 +167,7 @@ function DelegateTokensModal({
       title="Delegate tokens"
       body={modalBody}
       actionButtons={
-        <div className="flex items-center justify-center p-5">
+        <div className="flex items-center justify-center">
           <Button
             onClick={() => {
               delegate();

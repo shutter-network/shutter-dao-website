@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getVestingData, getMerkleDropContract, redeem } from "../../api/web3";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { parseTokenAmount } from "../../../common/utils/math";
+import { formatTokenAmount, parseTokenAmount } from "../../../common/utils/math";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useStateValue } from "../../../../store/hook";
 import { LinkToAddress } from "../../../common/components/link-to-address";
 import { ActivateVesting } from "./activate-vesting";
 import { WarningAccount } from "./warning-account";
 import ClaimableAmount from "./claimable-amount";
+import { get } from "http";
+import { getTokenSymbol } from "../../../common/utils/token";
 
 export type VestingType = {
   account: string;
@@ -78,7 +80,7 @@ export const Vesting = ({
         .redeemDeadline()
         .call()) as bigint;
 
-      setRedeemDeadline(new Date(Number(redeemDeadline) * 1000).toDateString());
+      setRedeemDeadline(new Date(Number(redeemDeadline) * 1000).toLocaleDateString("en-US", { day: "2-digit", month: "long", year: "numeric" }));
 
       await updateVestingInfo();
       setIsLoading(false);
@@ -143,7 +145,7 @@ export const Vesting = ({
           <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-white">Amount</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-              {parseTokenAmount(vesting.amount)}
+              {formatTokenAmount(parseTokenAmount(vesting.amount))}
             </dd>
           </div>
           {showDetails && (
@@ -177,7 +179,7 @@ export const Vesting = ({
                   Initial Unlock
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-                  {vesting.initialUnlock}
+                  {formatTokenAmount(parseTokenAmount(vesting.initialUnlock))}
                 </dd>
               </div>
               {onChainVesting && (
@@ -186,7 +188,7 @@ export const Vesting = ({
                     Amount claimed
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-                    {parseTokenAmount(onChainVesting.amountClaimed)}
+                    {formatTokenAmount(parseTokenAmount(onChainVesting.amountClaimed))}
                   </dd>
                 </div>
               )}

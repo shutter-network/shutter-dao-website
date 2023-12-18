@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import { getTokenSymbol } from "./token";
 
 /**
  * Use web3 BN to parse token amount
@@ -29,6 +30,9 @@ export function parseTokenAmount(amount: bigint | number | string): string {
   return formattedBalance;
 }
 
+export function formatTokenAmount(amount:string, suffix:string = getTokenSymbol()): string {
+  return Number(amount).toLocaleString('en-US', {maximumFractionDigits:2}) + ' ' + suffix;
+}
 
 export function convertToWei(amount: number | string) {
   // Step 1: Convert the number to a string
