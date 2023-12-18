@@ -28,3 +28,23 @@ export function parseTokenAmount(amount: bigint | number | string): string {
 
   return formattedBalance;
 }
+
+
+export function convertToWei(amount: number | string) {
+  // Step 1: Convert the number to a string
+  let amountStr = amount.toString();
+
+  // Step 2: Split the string into whole and fractional parts
+  let [wholePart, fractionalPart = ''] = amountStr.split('.');
+
+  // Step 3: Pad the fractional part with zeros
+  fractionalPart = fractionalPart.padEnd(18, '0');
+
+  // Step 4: Concatenate the whole part, the fractional part, and the necessary number of zeros
+  let weiStr = wholePart + fractionalPart;
+
+  // Step 5: Convert the resulting string to a BigInt
+  let weiBigInt = BigInt(weiStr);
+
+  return weiBigInt;
+}

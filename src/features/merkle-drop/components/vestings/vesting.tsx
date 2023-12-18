@@ -6,8 +6,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useStateValue } from "../../../../store/hook";
 import { LinkToAddress } from "../../../common/components/link-to-address";
 import { ActivateVesting } from "./activate-vesting";
-import { useAccount } from "../../../common/hooks/account";
 import { WarningAccount } from "./warning-account";
+import ClaimableAmount from "./claimable-amount";
 
 export type VestingType = {
   account: string;
@@ -107,9 +107,12 @@ export const Vesting = ({
           />
         </div>
         <div className="ml-3">
+          <div>
           <h3 className="text-sm font-bold text-red-800">
             This allocation is not activated!
           </h3>
+          </div>
+
           <div className="mt-2 text-sm text-red-700">
             Activate until {redeemDeadline} to not lose your eligible tokens.
           </div>
@@ -187,6 +190,16 @@ export const Vesting = ({
                   </dd>
                 </div>
               )}
+              {onChainVesting && (
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm font-medium leading-6 text-white">
+                    Claimable amount
+                  </dt>
+                  <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
+                    <ClaimableAmount vestingOnChain={onChainVesting} vestingDataFromServer={vesting}/>
+                  </dd>
+                </div>
+              )}
             </>
           )}
         </dl>
@@ -195,7 +208,7 @@ export const Vesting = ({
             <div className="absolute w-1 h-full left-1/2 transform -translate-x-1/2"></div>
 
             <button
-              className="rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 flex flex-row"
               onClick={() => setShowDetails(!showDetails)}
             >
               {!showDetails ? (
@@ -209,6 +222,7 @@ export const Vesting = ({
                   aria-hidden="true"
                 />
               )}
+              <div className="text-sm mr-1">{!showDetails ? 'show more' : 'show less'}</div>
             </button>
           </div>
         </div>

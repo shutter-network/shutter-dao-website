@@ -127,6 +127,73 @@ function handleError(error: any, onError?: (error: any) => void) {
   }
 }
 
+export function isTokenPaused(tokenAddress: string): Promise<boolean> {
+  const web3 = getWeb3();
+  const tokenContract = new web3.eth.Contract(TokenABI, tokenAddress);
+  return tokenContract.methods.paused().call();
+}
+
+export async function getCalculatedVestedAmount(
+  userAddress: string,
+  vestingId: string
+): Promise<bigint> {
+  const userPoolContract = await getUserVestingPool(userAddress);
+
+  if (!userPoolContract) {
+    return 0n;
+  }
+
+  const amounts = await userPoolContract.methods
+    .calculateVestedAmount(vestingId)
+    .call();
+
+  return BigInt(amounts[0]);
+}
+
+export async function claimTokens(
+  from: string,
+  vestingPoolForUser: string,
+  vestingId: string,
+  beneficiary: string,
+  tokensToClaim: bigint,
+  onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
+  onError?: (error: any) => void
+) {
+  const web3 = metamaskWeb3();
+
+  const userPool = await getUserVestingPool(vestingPoolForUser);
+
+  if (!userPool) {
+    throw new Error("No vesting pool found for user");
+  }
+
+  console.log(from, vestingId, beneficiary, tokensToClaim);
+  console.log(web3);
+
+  try {
+    // Can't figure out how to change the provider on the userPool contract
+    // so going to init a new userPool contract with at the address with the
+    // metamask provider
+    const connectedUserPool = new web3.eth.Contract(
+      VestingPoolABI,
+      userPool.options.address
+    );
+
+    return await connectedUserPool.methods
+      .claimVestedTokens(vestingId, beneficiary, tokensToClaim)
+      .send({
+        from,
+      })
+      .on(
+        "confirmation",
+        ({ confirmations, receipt }: ConfirmationType) =>
+          onConfirmation && onConfirmation(confirmations, receipt)
+      )
+      .on("error", (error: any) => handleError(error, onError));
+  } catch (error: any) {
+    handleError(error, onError);
+  }
+}
 export async function delegateTokens(
   poolAddress: string,
   from: string,
