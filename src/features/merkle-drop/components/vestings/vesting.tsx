@@ -10,6 +10,7 @@ import { WarningAccount } from "./warning-account";
 import ClaimableAmount from "./claimable-amount";
 import { get } from "http";
 import { getTokenSymbol } from "../../../common/utils/token";
+import { useAccount } from "../../../common/hooks/account";
 
 export type VestingType = {
   account: string;
@@ -44,6 +45,7 @@ export const Vesting = ({
   vesting: VestingType;
   index: number;
 }) => {
+  const account = useAccount();
   const [state, dispatch] = useStateValue();
   const onChainVesting = state.vestings?.[vesting.vestingId];
 
@@ -139,7 +141,7 @@ export const Vesting = ({
         </h3>
         {isLoading ? null : badge}
       </div>
-      {isLoading ? null : !onChainVesting && poolNotRedeemed}
+      {isLoading || !account ? null : !onChainVesting && poolNotRedeemed}
       <div className="mt-6 border-t border-white/10">
         <dl className="divide-y divide-white/10">
           <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
