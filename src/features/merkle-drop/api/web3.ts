@@ -133,7 +133,7 @@ export function isTokenPaused(tokenAddress: string): Promise<boolean> {
   return tokenContract.methods.paused().call();
 }
 
-export async function getCalculatedVestedAmount(
+export async function getTokensAvailableForWithdrawal(
   userAddress: string,
   vestingId: string
 ): Promise<bigint> {
@@ -147,7 +147,7 @@ export async function getCalculatedVestedAmount(
     .calculateVestedAmount(vestingId)
     .call();
 
-  return BigInt(amounts[0]);
+  return BigInt(amounts["vestedAmount"]) - BigInt(amounts["claimedAmount"]);
 }
 
 export async function claimTokens(

@@ -4,14 +4,14 @@ import { convertToWei, formatTokenAmount, parseTokenAmount } from "../../../comm
 import { Modal } from "../../../common/components/modal";
 import {
   claimTokens as claimTokensOnPool,
-  getCalculatedVestedAmount,
+  getTokensAvailableForWithdrawal,
   isTokenPaused,
 } from "../../api/web3";
 import { useAccount } from "../../../common/hooks/account";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { isEthAddress } from "../../../common/utils/address";
 import { SpinIcon } from "../../../common/components/spin-icon";
-import { getTokenSymbol } from "../../../common/utils/token";
+import { Receipt } from "web3";
 
 const tokenAddress = process.env.REACT_APP_SHU_TOKEN_CONTRACT_ADDRESS;
 const ClaimableAmount = ({
@@ -37,12 +37,12 @@ const ClaimableAmount = ({
 
   useEffect(() => {
     const getChainData = async () => {
-      const vestedAmount = await getCalculatedVestedAmount(
+      const amountClaimable = await getTokensAvailableForWithdrawal(
         vestingDataFromServer.account,
         vestingDataFromServer.vestingId
       );
 
-      setClaimableAmount(vestedAmount);
+      setClaimableAmount(amountClaimable);
 
       const tokenPaused = await isTokenPaused(tokenAddress);
       setTokenPaused(tokenPaused);
@@ -50,24 +50,18 @@ const ClaimableAmount = ({
 
     getChainData();
   }, [vestingOnChain]);
-  // Calculate the claimable tokens based on the vesting object
-  // Replace the following line with your calculation logic
-  const calculateClaimableTokens = (): number => {
-    return 0;
-  };
+
+
 
   const onConfirmation = (confirmations: bigint, receipt: Receipt) => {
-    console.log("confirmation", confirmations, receipt);
     setIsProcessing(false);
     setShowModal(false);
   };
 
   const onError = (err: any) => {
-    console.log("error", err);
     setError(err.message);
     setIsProcessing(false);
   };
-
   const claimTokens = async () => {
     setIsProcessing(true);
     setError("");
@@ -76,7 +70,7 @@ const ClaimableAmount = ({
       return;
     }
 
-    console.log("tokens to claim", tokensToClaim);
+
     // verify that tokenToClaim is a valid number and it is lower than claimableAmount
     if (tokensToClaim === "") {
       setError("No amount to claim entered");
@@ -258,7 +252,6 @@ const ClaimableAmount = ({
           <button
             onClick={handleClaimButtonClick}
             className="rounded-md bg-indigo-500 px-2 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-indigo-50 disabled:opacity-70"
-            //    disabled={true}
           >
             Claim
           </button>
