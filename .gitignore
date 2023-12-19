@@ -12,3 +12,5 @@ yarn-error.log
 
 public
 .cache
+/.env.production
+/.env.development
