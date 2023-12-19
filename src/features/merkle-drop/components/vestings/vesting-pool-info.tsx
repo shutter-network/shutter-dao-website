@@ -39,7 +39,6 @@ export const VestingPoolInfo = ({ account }: { account: string }) => {
     return null;
   }
 
-  console.log("delegatee", delegatee);
   return (
     <>
       <div className="mt-2 text-sm text-green-700">
