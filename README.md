@@ -4,13 +4,13 @@ These are the sources for a Shutter DAO Merkle Drop website.
 
 The website is built with the static site generator Gatsby.
 
-Please make relevant changes to the .env files.
+Copy the contents of `.env.example` to `.env.development` or `.env.production` file and make the necessary adjustments.
 
 
 ## Dependencies
 
 Requirements:
-- Node v12
+- Node v18
 - Yarn v1
 
 Install dependencies:
