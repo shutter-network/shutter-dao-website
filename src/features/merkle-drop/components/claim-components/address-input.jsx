@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import Message from "./message";
-import { isAddress } from "ethereum-address";
+import { isAddress } from "web3-validator";
 import { CHAIN_STATE } from "../../../common/hooks/chain-state";
 import { Paste } from "../../../common/components/icons/paste";
 import { Button } from "../../../common/components/button";
