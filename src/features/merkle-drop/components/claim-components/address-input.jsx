@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import Message from "./message";
 import { isAddress } from "web3-validator";
 import { CHAIN_STATE } from "../../../common/hooks/chain-state";
-import { Paste } from "../../../common/components/icons/paste";
 import { Button } from "../../../common/components/button";
 import { Card } from "../../../common/components/card";
 
@@ -17,7 +16,7 @@ function AddressInput(props) {
   let inputClasses = "";
 
   const handleChange = useCallback(
-    event => {
+    (event) => {
       const newAddress = event.target.value;
       if (addressRegex.test(newAddress)) {
         setAddress(newAddress);
@@ -27,18 +26,12 @@ function AddressInput(props) {
   );
 
   const handleSubmit = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       onSubmit(address);
     },
     [onSubmit, address]
   );
-
-  const handlePaste = useCallback(() => {
-    navigator.clipboard.readText().then(text => {
-      setAddress(text);
-    });
-  }, []);
 
   if (invalid) {
     inputClasses += "border border-neon-pink";
@@ -59,7 +52,8 @@ function AddressInput(props) {
                 className={`flex flex-row items-center w-full rounded-full bg-card-colors-input_grey text-grey h-12 my-4 ${inputClasses}`}
               >
                 <input
-                  className="bg-card-colors-input_grey ml-2 pl-2 w-full rounded-full placeholder-grey-darker text-sm md:text-base font-medium"
+                  className="bg-card-colors-input_grey ml-2 px-2 mr-2 w-full 
+                  rounded-full placeholder-grey-darker text-sm md:text-base font-medium"
                   // autoComplete="off"
                   spellCheck="false"
                   type="text"
@@ -70,16 +64,6 @@ function AddressInput(props) {
                   name={"address"}
                   required
                 />
-                <div className="mr-2">
-                  <Button
-                    className="px-2 py-2 rounded-full bg-card-colors-input_grey hover:bg-grey-darker stroke-current md:text-grey-darker md:stroke-current text-majorelle-blue"
-                    type="button"
-                    value="paste"
-                    onClick={handlePaste}
-                  >
-                    <Paste />
-                  </Button>
-                </div>
               </div>
             </div>
             <div className="flex flex-row items-center">
