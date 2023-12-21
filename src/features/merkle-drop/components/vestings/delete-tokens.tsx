@@ -2,9 +2,12 @@ import React from "react";
 import DelegateTokensModal from "./delegate-tokens-modal";
 import { useStateValue } from "../../../../store/hook";
 import { ZERO_ADDRESS } from "../../../common/constants";
+import { WarningAccount } from "./warning-account";
 
 export const DelegateTokens = ({
-  poolBalance, poolAddress, userAccount,
+  poolBalance,
+  poolAddress,
+  userAccount,
 }: {
   poolBalance: bigint;
   userAccount: string;
@@ -22,16 +25,25 @@ export const DelegateTokens = ({
           onClose={() => setShowForm(false)}
           poolAddress={poolAddress}
           poolBalance={poolBalance}
-          userAddress={userAccount} />
+          userAddress={userAccount}
+        />
       )}
 
-      <button
-        type="button"
-        className="rounded-md bg-indigo-500 px-2 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-indigo-50"
-        onClick={() => setShowForm(!showForm)}
+      <WarningAccount
+        vestingAccount={userAccount}
+        customWrongChainMessage={`You are connected to the wrong network. Switch to 
+                  ${process.env.REACT_APP_CHAIN_NAME} to proceed with delegating.`}
       >
-        {tokensDelegated === ZERO_ADDRESS ? "Delegate tokens" : "Re-delegate tokens"}
-      </button>
+        <button
+          type="button"
+          className="rounded-md bg-indigo-500 px-2 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-indigo-50"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {tokensDelegated === ZERO_ADDRESS
+            ? "Delegate tokens"
+            : "Re-delegate tokens"}
+        </button>
+      </WarningAccount>
     </>
   );
 };

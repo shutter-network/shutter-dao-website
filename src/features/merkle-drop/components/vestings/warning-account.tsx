@@ -7,9 +7,11 @@ import { CHAIN_STATE, useChainState } from "../../../common/hooks/chain-state";
 export const WarningAccount = ({
   vestingAccount,
   children,
+  customWrongChainMessage,
 }: {
   vestingAccount: string;
   children?: React.ReactNode;
+  customWrongChainMessage?: string;
 }) => {
   const account = useAccount();
   const chainState = useChainState();
@@ -84,11 +86,14 @@ export const WarningAccount = ({
             />
           </div>
           <div className="ml-3 max-w-xs">
-            <h3 className="text-sm font-bold text-yellow-800">Wrong network!</h3>
+            <h3 className="text-sm font-bold text-yellow-800">
+              Wrong network!
+            </h3>
             <div className="mt-2 pr-10 text-sm text-yellow-700 overflow-x-auto">
-              <p className="">
-                You are connected to the wrong network. Switch to{" "}
-                <strong>{process.env.REACT_APP_CHAIN_NAME}</strong> to proceed with claiming.
+              <p>
+                {customWrongChainMessage ||
+                  `You are connected to the wrong network. Switch to 
+                  ${process.env.REACT_APP_CHAIN_NAME} to proceed with claiming.`}
               </p>
             </div>
           </div>
