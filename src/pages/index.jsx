@@ -14,3 +14,12 @@ export default function MerkleDrop() {
     </LayoutDark>
   );
 }
+
+export function Head() {
+  return (
+    <>
+      <title>Shutter Merkle Drop</title>
+      <meta name="description" content="Shutter Merkle Drop" />
+    </>
+  )
+}
