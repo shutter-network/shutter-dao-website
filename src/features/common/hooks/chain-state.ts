@@ -1,29 +1,30 @@
 import { useState, useEffect } from "react";
 import getWeb3, { verifyChainId } from "../api/web3";
 
-export const CHAIN_STATE = {
-  CONNECTING: "connecting",
-  CONNECTED: "connected",
-  WRONG_CHAIN: "wrongChain",
-  CHAIN_UNKNOWN: "chainUnknown",
-  DISCONNECTED: "disconnected",
-};
+export enum CHAIN_STATE {
+  CONNECTING = "connecting",
+  CONNECTED = "connected",
+  WRONG_CHAIN = "wrongChain",
+  CHAIN_UNKNOWN = "chainUnknown",
+  DISCONNECTED = "disconnected",
+}
 
-export function useChainState() {
-  const [chainState, setChainState] = useState(CHAIN_STATE.CONNECTING);
+export function useChainState(): CHAIN_STATE {
+  const [chainState, setChainState] = useState<CHAIN_STATE>(CHAIN_STATE.CONNECTING);
 
   useEffect(() => {
-    // box variable to make it available in inner function
-    const env = {
+    interface Environment {
+      chainCheckIntervalId: number;
+    }
+
+    const env: Environment = {
       chainCheckIntervalId: 0,
     };
 
-    // define async function because effect function can not be async
-    async function connect() {
+    async function connect(): Promise<void> {
       try {
         if (getWeb3()) {
-          // function that periodically checks the chain state
-          async function checkChain() {
+          async function checkChain(): Promise<void> {
             try {
               if (await verifyChainId(process.env.REACT_APP_CHAIN_ID)) {
                 setChainState(CHAIN_STATE.CONNECTED);
@@ -32,13 +33,12 @@ export function useChainState() {
               }
             } catch (e) {
               console.error(e);
-              // Stop the periodical chain check
               clearInterval(env.chainCheckIntervalId);
               setChainState(CHAIN_STATE.CHAIN_UNKNOWN);
             }
           }
 
-          env.chainCheckIntervalId = setInterval(checkChain, 500);
+          env.chainCheckIntervalId = window.setInterval(checkChain, 500);
           checkChain();
         } else {
           setChainState(CHAIN_STATE.DISCONNECTED);
@@ -50,7 +50,8 @@ export function useChainState() {
     }
 
     connect();
-    return () => clearInterval(env.chainCheckIntervalId);
+    return () => window.clearInterval(env.chainCheckIntervalId);
   }, []);
+
   return chainState;
 }

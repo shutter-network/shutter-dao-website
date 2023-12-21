@@ -2,6 +2,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import React from "react";
 import { useAccount } from "../../../common/hooks/account";
 import { requestPermission } from "../../../common/api/web3";
+import { CHAIN_STATE, useChainState } from "../../../common/hooks/chain-state";
 
 export const WarningAccount = ({
   vestingAccount,
@@ -11,6 +12,7 @@ export const WarningAccount = ({
   children?: React.ReactNode;
 }) => {
   const account = useAccount();
+  const chainState = useChainState();
 
   const connect = async () => {
     await requestPermission();
@@ -64,6 +66,30 @@ export const WarningAccount = ({
             <div className="mt-2 text-sm text-yellow-700">
               This allocation is for {vestingAccount} and you are currently
               connected with {account}. Switch account to continue.
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (chainState === CHAIN_STATE.WRONG_CHAIN) {
+    return (
+      <div className="rounded-md bg-yellow-50 mt-4 p-4">
+        <div className="flex">
+          <div className="flex-shrink-0">
+            <ExclamationTriangleIcon
+              className="h-5 w-5 text-yellow-400"
+              aria-hidden="true"
+            />
+          </div>
+          <div className="ml-3 max-w-xs">
+            <h3 className="text-sm font-bold text-yellow-800">Wrong network!</h3>
+            <div className="mt-2 pr-10 text-sm text-yellow-700 overflow-x-auto">
+              <p className="">
+                You are connected to the wrong network. Switch to{" "}
+                <strong>{process.env.REACT_APP_CHAIN_NAME}</strong> to proceed with claiming.
+              </p>
             </div>
           </div>
         </div>
