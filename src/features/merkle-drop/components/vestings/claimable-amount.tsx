@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { type VestingType, type VestingOnchainType } from "./vesting";
-import { convertToWei, formatTokenAmount, parseTokenAmount } from "../../../common/utils/math";
+import {
+  convertToWei,
+  formatTokenAmount,
+  parseTokenAmount,
+} from "../../../common/utils/math";
 import { Modal } from "../../../common/components/modal";
 import {
   approve,
@@ -14,6 +18,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { isEthAddress } from "../../../common/utils/address";
 import { SpinIcon } from "../../../common/components/spin-icon";
 import { Receipt } from "web3";
+import { WarningAccount } from "./warning-account";
 
 const sptToken = process.env.REACT_SPT_TOKEN_CONTRACT_ADDRESS as string;
 const tokenAddress = process.env.REACT_APP_SHU_TOKEN_CONTRACT_ADDRESS;
@@ -246,7 +251,6 @@ const ClaimableAmount = ({
       <button
         onClick={claimTokens}
         className="rounded-md bg-indigo-500 px-2 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-indigo-50 disabled:opacity-70 flex flex-row"
-        //    disabled={true}
       >
         {isProcessing && <SpinIcon />}
         <div className="mt-1">Claim</div>
@@ -255,42 +259,46 @@ const ClaimableAmount = ({
   );
   return (
     <div className={`flex ${tokenPaused ? "flex-col" : "flex-row"}`}>
-      <p className="mt-1 mr-2">{formatTokenAmount(parseTokenAmount(claimableAmount))}</p>
-      {tokenPaused ? (
-        <>
-          {tokenPaused && (
-            <div
-              className="mt-2 bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative"
-              role="alert"
+      <WarningAccount vestingAccount={vestingDataFromServer.account}>
+        <p className="mt-1 mr-2">
+          {formatTokenAmount(parseTokenAmount(claimableAmount))}
+        </p>
+        {tokenPaused ? (
+          <>
+            {tokenPaused && (
+              <div
+                className="mt-2 bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative"
+                role="alert"
+              >
+                <span className="block sm:inline">
+                  The token is currently non-transferable. Once the DAO Votes on
+                  making it transferable you'll be able to claim the amount
+                  here.
+                </span>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <button
+              onClick={handleClaimButtonClick}
+              className="rounded-md bg-indigo-500 px-2 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-indigo-50 disabled:opacity-70"
             >
-              <span className="block sm:inline">
-                The token is currently non-transferable. Once the DAO Votes on
-                making it transferable you'll be able to claim the amount here.
-              </span>
-            </div>
-          )}
-        </>
-      ) : (
-        <>
-          <button
-            onClick={handleClaimButtonClick}
-            className="rounded-md bg-indigo-500 px-2 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-indigo-50 disabled:opacity-70"
-          >
-            Claim
-          </button>
-
-          {showModal && (
-            <div>
-              <Modal
-                title="Claim Tokens"
-                body={modalBody}
-                actionButtons={actionButtons}
-                onClose={closeModal}
-              />
-            </div>
-          )}
-        </>
-      )}
+              Claim
+            </button>
+            {showModal && (
+              <div>
+                <Modal
+                  title="Claim Tokens"
+                  body={modalBody}
+                  actionButtons={actionButtons}
+                  onClose={closeModal}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </WarningAccount>
     </div>
   );
 };

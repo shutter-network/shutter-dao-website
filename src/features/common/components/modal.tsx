@@ -20,7 +20,7 @@ export const Modal: React.FC<ModalProps> = ({
           <div className="border-0 rounded-3xl shadow-card-gray-light relative flex flex-col w-full bg-off-white outline-none focus:outline-none">
             <div className="flex-1 flex-cols items-center px-5 min-w-full">
               <div className="py-5">
-                <h1 className="text-xl font-semibold">{title}</h1>
+                <h1 className="text-xl text-black font-semibold">{title}</h1>
               </div>
               <button
                 onClick={onClose}
