@@ -53,7 +53,7 @@ function AddressInput(props) {
               >
                 <input
                   className="bg-card-colors-input_grey ml-2 px-2 mr-2 w-full 
-                  rounded-full placeholder-grey-darker text-sm md:text-base font-medium"
+                  rounded-full placeholder-grey-darker text-sm md:text-base font-medium min-w-[170px]"
                   // autoComplete="off"
                   spellCheck="false"
                   type="text"

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "../../../common/components/button";
 import TermsAndConditionsParagraph from "./terms";
 
 const SCROLL_THRESHOLD = 5;
 
-const elementScrolledToBottom = element => {
+const elementScrolledToBottom = (element) => {
   return (
     element.scrollHeight - element.scrollTop <=
     element.clientHeight + SCROLL_THRESHOLD
@@ -36,11 +35,7 @@ function TermsAndConditionsModal(props) {
         <div className="relative w-auto my-6 mx-auto max-w-3xl">
           <div className="border-0 rounded-3xl shadow-card-gray-light relative flex flex-col w-full bg-off-white outline-none focus:outline-none">
             <div className="flex-1 flex-cols items-center p-10">
-              <div className="py-5">
-                <h1 className="text-grey text-3xl font-semibold">
-                  Terms and Conditions
-                </h1>
-              </div>
+              <h1 className="text-3xl font-semibold">Terms and Conditions</h1>
             </div>
             <div
               className="max-h-80 overflow-scroll px-10 terms-and-conditions"
@@ -50,25 +45,25 @@ function TermsAndConditionsModal(props) {
               <TermsAndConditionsParagraph />
             </div>
             <div className="flex items-center justify-center p-10">
-              <Button
+              <button
                 onClick={() => {
                   onReject();
                 }}
                 isDark
-                className="bg-rich-black text-off-white px-8 py-4 mx-2"
+                className="rounded-full text-sm bg-rich-black-lightest text-off-white px-8 py-4 mx-2 hover:bg-rich-black-lighter"
               >
                 Reject
-              </Button>
-              <Button
+              </button>
+              <button
                 onClick={() => {
                   onAccept();
                 }}
                 isDark
-                className="bg-dark-green-darker op disabled:bg-app-blue text-white px-8 py-4 mx-2"
+                className="rounded-full text-sm bg-app-blue disabled:bg-grey text-white px-8 py-4 mx-2 hover:bg-app-blue-lighter"
                 disabled={!scrolledToModalBottom}
               >
                 Accept
-              </Button>
+              </button>
             </div>
           </div>
         </div>

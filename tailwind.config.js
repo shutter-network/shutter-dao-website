@@ -44,7 +44,9 @@ module.exports = {
         },
         "app-blue": {
           lightest: "#E6EFFC",
+          lighter: "#1a87ff",
           DEFAULT: "#007AFF",
+          darker: "#0055b3",
         },
         "protocol-blue": {
           DEFAULT: "#1e8cc3",
