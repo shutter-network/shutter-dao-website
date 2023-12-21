@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getVestingData, getMerkleDropContract, redeem } from "../../api/web3";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { formatTokenAmount, parseTokenAmount } from "../../../common/utils/math";
+import {
+  formatTokenAmount,
+  parseTokenAmount,
+} from "../../../common/utils/math";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useStateValue } from "../../../../store/hook";
 import { LinkToAddress } from "../../../common/components/link-to-address";
@@ -55,7 +58,10 @@ export const Vesting = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const updateVestingInfo = async () => {
-    const data:VestingOnchainType = await getVestingData(vesting.account, vesting.vestingId);
+    const data: VestingOnchainType = await getVestingData(
+      vesting.account,
+      vesting.vestingId
+    );
 
     if (data && data.amount !== 0n) {
       dispatch({
@@ -82,7 +88,13 @@ export const Vesting = ({
         .redeemDeadline()
         .call()) as bigint;
 
-      setRedeemDeadline(new Date(Number(redeemDeadline) * 1000).toLocaleDateString("en-US", { day: "2-digit", month: "long", year: "numeric" }));
+      setRedeemDeadline(
+        new Date(Number(redeemDeadline) * 1000).toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })
+      );
 
       await updateVestingInfo();
       setIsLoading(false);
@@ -112,14 +124,25 @@ export const Vesting = ({
         </div>
         <div className="ml-3">
           <div>
-          <h3 className="text-sm font-bold text-red-800">
-            This allocation is not activated!
-          </h3>
+            <h3 className="text-sm font-bold text-red-800">
+              This allocation is not activated!
+            </h3>
           </div>
 
           <div className="mt-2 text-sm text-red-700">
             Activate until {redeemDeadline} to not lose your eligible tokens.
           </div>
+
+          {process.env.REACT_SPT_CONVERSION_CONTRACT_ADDRESS ===
+            vesting.contract && (
+            <div className="mt-2 text-sm text-red-700">
+              <strong>Note:</strong> this is a special allocation for SPT token
+              holders. You will be first asked to allow the contract to transfer
+              your SPT tokens. Afterwards, when claiming your allocation your
+              SPT tokens will be burned and you'll be given the corresponding
+              amount of {process.env.REACT_APP_TOKEN_SYMBOL} tokens.
+            </div>
+          )}
         </div>
       </div>
       {!onChainVesting && (
@@ -141,7 +164,15 @@ export const Vesting = ({
         </h3>
         {isLoading ? null : badge}
       </div>
-      {isLoading || !account ? null : !onChainVesting && poolNotRedeemed}
+      {isLoading || !account ? (
+        <WarningAccount vestingAccount={vesting.account} />
+      ) : (
+        !onChainVesting && (
+          <WarningAccount vestingAccount={vesting.account}>
+            {poolNotRedeemed}
+          </WarningAccount>
+        )
+      )}
       <div className="mt-6 border-t border-white/10">
         <dl className="divide-y divide-white/10">
           <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -190,7 +221,9 @@ export const Vesting = ({
                     Amount claimed
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-                    {formatTokenAmount(parseTokenAmount(onChainVesting.amountClaimed))}
+                    {formatTokenAmount(
+                      parseTokenAmount(onChainVesting.amountClaimed)
+                    )}
                   </dd>
                 </div>
               )}
@@ -200,7 +233,10 @@ export const Vesting = ({
                     Claimable amount
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-                    <ClaimableAmount vestingOnChain={onChainVesting} vestingDataFromServer={vesting}/>
+                    <ClaimableAmount
+                      vestingOnChain={onChainVesting}
+                      vestingDataFromServer={vesting}
+                    />
                   </dd>
                 </div>
               )}
@@ -226,12 +262,14 @@ export const Vesting = ({
                   aria-hidden="true"
                 />
               )}
-              <div className="text-sm mr-1">{!showDetails ? 'show more' : 'show less'}</div>
+              <div className="text-sm mr-1">
+                {!showDetails ? "show more" : "show less"}
+              </div>
             </button>
           </div>
         </div>
 
-        <WarningAccount vestingAccount={vesting.account} />
+        {/* <WarningAccount vestingAccount={vesting.account} /> */}
       </div>
     </div>
   );
