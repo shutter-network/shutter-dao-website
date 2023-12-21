@@ -3,8 +3,10 @@ import { type VestingType, type VestingOnchainType } from "./vesting";
 import { convertToWei, formatTokenAmount, parseTokenAmount } from "../../../common/utils/math";
 import { Modal } from "../../../common/components/modal";
 import {
+  approve,
   claimTokens as claimTokensOnPool,
   getTokensAvailableForWithdrawal,
+  getUserVestingPool,
   isTokenPaused,
 } from "../../api/web3";
 import { useAccount } from "../../../common/hooks/account";
@@ -13,7 +15,9 @@ import { isEthAddress } from "../../../common/utils/address";
 import { SpinIcon } from "../../../common/components/spin-icon";
 import { Receipt } from "web3";
 
+const sptToken = process.env.REACT_SPT_TOKEN_CONTRACT_ADDRESS as string;
 const tokenAddress = process.env.REACT_APP_SHU_TOKEN_CONTRACT_ADDRESS;
+
 const ClaimableAmount = ({
   vestingOnChain,
   vestingDataFromServer,
@@ -90,12 +94,31 @@ const ClaimableAmount = ({
       return;
     }
 
+    if (vestingDataFromServer.requiresSPT) {
+      const userPool = await getUserVestingPool(vestingDataFromServer.account);
+      if (!userPool) {
+        setError("No vesting pool found for user");
+        setIsProcessing(false);
+        return;
+      }
+      await approve(
+        sptToken,
+        vestingDataFromServer.account,
+        convertToWei(tokensToClaim),
+        userPool.options.address as string,
+        () => {},
+        () => {},
+        onError
+      );
+    }
+
+
     await claimTokensOnPool(
       account,
       vestingDataFromServer.account,
       vestingDataFromServer.vestingId,
       beneficiary,
-      claimableAmount,
+      convertToWei(tokensToClaim),
       onConfirmation,
       onError
     );

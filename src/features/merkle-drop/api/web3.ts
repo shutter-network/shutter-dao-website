@@ -27,7 +27,7 @@ export async function getTokenContract(
 export async function approve(
   tokenAddress: string,
   sender: string,
-  amount: string,
+  amount: bigint,
   spender: string,
   onSign?: (hash: string) => void,
   onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
@@ -234,6 +234,7 @@ export async function redeem(
   durationWeeks: number,
   startDate: number,
   initialUnlock: number,
+  requiresSPT: boolean,
   proof: string[],
   merkleDropAddress: string,
   onSign?: (hash: string) => void,
@@ -249,7 +250,7 @@ export async function redeem(
 
   try {
     return await merkleDropContract.methods
-      .redeem(curveType, durationWeeks, startDate, amount, initialUnlock, proof)
+      .redeem(curveType, durationWeeks, startDate, amount, initialUnlock, proof, requiresSPT)
       .send({
         from: address,
       })

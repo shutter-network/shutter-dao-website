@@ -27,6 +27,7 @@ export type VestingType = {
   startDate: number;
   tag: string;
   vestingId: string;
+  requiresSPT: boolean;
 };
 
 export type VestingOnchainType = {
@@ -133,14 +134,12 @@ export const Vesting = ({
             Activate until {redeemDeadline} to not lose your eligible tokens.
           </div>
 
-          {process.env.REACT_SPT_CONVERSION_CONTRACT_ADDRESS ===
-            vesting.contract && (
+          {vesting.requiresSPT && (
             <div className="mt-2 text-sm text-red-700">
               <strong>Note:</strong> this is a special allocation for SPT token
-              holders. You will be first asked to allow the contract to transfer
-              your SPT tokens. Afterwards, when claiming your allocation your
-              SPT tokens will be burned and you'll be given the corresponding
-              amount of {process.env.REACT_APP_TOKEN_SYMBOL} tokens.
+              holders. You can activate the allocation now, but later when you 
+              want to claim your tokens you will need to have SPT tokens to exchange
+              for the {process.env.REACT_APP_TOKEN_SYMBOL} tokens.
             </div>
           )}
         </div>

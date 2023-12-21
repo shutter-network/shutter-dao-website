@@ -17,9 +17,14 @@
         "type": "uint64"
       },
       {
-        "internalType": "contract VestingPoolManager",
+        "internalType": "address",
         "name": "_vestingPoolManager",
         "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_root",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "nonpayable",
@@ -73,19 +78,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "_root",
-        "type": "bytes32"
-      }
-    ],
-    "name": "initializeRoot",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint8",
         "name": "curveType",
         "type": "uint8"
@@ -114,6 +106,11 @@
         "internalType": "bytes32[]",
         "name": "proof",
         "type": "bytes32[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "requiresSPT",
+        "type": "bool"
       }
     ],
     "name": "redeem",

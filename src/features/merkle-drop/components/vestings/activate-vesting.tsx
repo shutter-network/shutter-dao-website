@@ -4,10 +4,7 @@ import { approve, redeem } from "../../api/web3";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import { SpinIcon } from "../../../common/components/spin-icon";
 import TermsAndConditions from "../claim-components/terms-modal";
-const sptToken = process.env.REACT_SPT_TOKEN_CONTRACT_ADDRESS as string;
-const isSPTContract = (contract: string) => {
-  return contract === process.env.REACT_SPT_CONVERSION_CONTRACT_ADDRESS;
-};
+
 
 export const ActivateVesting = ({
   vesting,
@@ -45,18 +42,6 @@ export const ActivateVesting = ({
     setIsProcessing(true);
     setError("");
 
-    if (isSPTContract(vesting.contract)) {
-      await approve(
-        sptToken,
-        vesting.account,
-        vesting.amount,
-        vesting.contract,
-        () => {},
-        handleApproveConfirmation,
-        onError
-      );
-    }
-
     await redeem(
       vesting.account,
       vesting.amount,
@@ -64,6 +49,7 @@ export const ActivateVesting = ({
       vesting.durationWeeks,
       vesting.startDate,
       vesting.initialUnlock,
+      vesting.requiresSPT,
       vesting.proof,
       vesting.contract,
       handleSign,

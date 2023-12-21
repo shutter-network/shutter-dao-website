@@ -12,6 +12,11 @@ const artifact = [
   },
   {
     "inputs": [],
+    "name": "AlreadyInitialized",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "CheckpointUnorderedInsertion",
     "type": "error"
   },
@@ -194,6 +199,11 @@ const artifact = [
   {
     "inputs": [],
     "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotInitialized",
     "type": "error"
   },
   {
@@ -737,6 +747,24 @@ const artifact = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "airdropContract",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
