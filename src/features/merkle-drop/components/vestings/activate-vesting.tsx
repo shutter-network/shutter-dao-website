@@ -51,7 +51,6 @@ export const ActivateVesting = ({
       vesting.initialUnlock,
       vesting.requiresSPT,
       vesting.proof,
-      vesting.contract,
       handleSign,
       handleConfirmation,
       onError
@@ -120,7 +119,7 @@ export const ActivateVesting = ({
       </div>
       <div className="px-0 flex flex-row justify-end">
         <button
-          className="rounded-md bg-indigo-500 px-2.5 py-1.5 
+          className="rounded-md bg-indigo-500 px-2.5 py-1.5
                 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 flex flex-row"
           onClick={handleRedeemRequest}
           disabled={isProcessing}

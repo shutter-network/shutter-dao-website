@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getVestingData, getMerkleDropContract, redeem } from "../../api/web3";
+import { getVestingData, getMerkleDropContract } from "../../api/web3";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import {
   formatTokenAmount,
@@ -11,15 +11,13 @@ import { LinkToAddress } from "../../../common/components/link-to-address";
 import { ActivateVesting } from "./activate-vesting";
 import { WarningAccount } from "./warning-account";
 import ClaimableAmount from "./claimable-amount";
-import { get } from "http";
-import { getTokenSymbol } from "../../../common/utils/token";
 import { useAccount } from "../../../common/hooks/account";
+
 
 export type VestingType = {
   account: string;
   amount: string;
   chainId: string;
-  contract: string;
   curve: number;
   durationWeeks: number;
   initialUnlock: number;
@@ -83,7 +81,10 @@ export const Vesting = ({
     const getData = async () => {
       setIsLoading(true);
       // console.log('contract', vesting)
-      const airdrop = await getMerkleDropContract(vesting.contract);
+      const airdrop = await getMerkleDropContract(
+        process.env.REACT_APP_AIRDROP_CONTRACT_ADDRESS || ""
+      );
+
       // the date in solidity is in seconds, so we need to multiply by 1000
       const redeemDeadline = (await airdrop.methods
         .redeemDeadline()
@@ -195,7 +196,11 @@ export const Vesting = ({
                   Contract
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-                  <LinkToAddress address={vesting.contract} />
+                  <LinkToAddress
+                    address={
+                      process.env.REACT_APP_AIRDROP_CONTRACT_ADDRESS || ""
+                    }
+                  />
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

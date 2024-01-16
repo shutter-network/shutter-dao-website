@@ -236,7 +236,6 @@ export async function redeem(
   initialUnlock: number,
   requiresSPT: boolean,
   proof: string[],
-  merkleDropAddress: string,
   onSign?: (hash: string) => void,
   onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
   onError?: (error: any) => void
@@ -245,12 +244,20 @@ export async function redeem(
 
   const merkleDropContract = new web3.eth.Contract(
     MerkleDropABI,
-    merkleDropAddress
+    process.env.REACT_APP_AIRDROP_CONTRACT_ADDRESS
   );
 
   try {
     return await merkleDropContract.methods
-      .redeem(curveType, durationWeeks, startDate, amount, initialUnlock, proof, requiresSPT)
+      .redeem(
+        curveType,
+        durationWeeks,
+        startDate,
+        amount,
+        initialUnlock,
+        proof,
+        requiresSPT
+      )
       .send({
         from: address,
       })
