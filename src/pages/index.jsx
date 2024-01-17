@@ -10,7 +10,6 @@ export default function MerkleDrop() {
     <LayoutDark>
       <MerkleDropHero />
       <MerkleDropIntroduction />
-      <MerkleDropFaqs />
     </LayoutDark>
   );
 }
@@ -18,8 +17,8 @@ export default function MerkleDrop() {
 export function Head() {
   return (
     <>
-      <title>Shutter Merkle Drop</title>
-      <meta name="description" content="Shutter Merkle Drop" />
+      <title>Shutter Network Genesis Allocations</title>
+      <meta name="description" content="Shutter Network Genesis Allocations" />
     </>
   )
 }

@@ -4,7 +4,7 @@
     "items": [
       {
         "label": "GitHub",
-        "href": "https://github.com/beamer-bridge/beamer"
+        "href": "https://github.com/shutter-network"
       }
     ]
   },
@@ -12,12 +12,17 @@
     "label": "Legal",
     "items": [
       {
-        "label": "Privacy Policy & Legal Imprint",
-        "href": "/privacy-policy",
+        "label": "Privacy Policy",
+        "href": "https://shutter.network/privacy-policy",
         "id": "privacy_policy"
       },
       {
-        "label": "Merkle Drop Terms & Conditions",
+        "label": "Legal Imprint",
+        "href": "https://shutter.network/imprint",
+        "id": "privacy_policy"
+      },
+      {
+        "label": "Terms & Conditions of Use",
         "href": "/terms-and-conditions",
         "id": "terms_and_conditions"
       }

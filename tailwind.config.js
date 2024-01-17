@@ -18,18 +18,19 @@ module.exports = {
       },
       colors: {
         "rich-black": {
-          lightest: "#6C6C73",
-          lighter: "#3E3E48",
-          DEFAULT: "#12121F",
+          lightest: "#585E60",
+          lighter: "#35393A",
+          DEFAULT: "#051016",
+          darker: "#051016",
         },
-        grey: {
-          lighter: "#EDEDED",
-          DEFAULT: "#DBDBDC",
-          darker: "#98989D",
+        "grey": {
+          lighter: "#DFE6EA",
+          DEFAULT: "#C1C9CF",
+          darker: "#ACB2B5",
         },
         "white": {
           DEFAULT: "#FFFFFF",
-          darker: "#FAFAFA",
+          darker: "#DFE6EA",
         },
         "off-white": {
           DEFAULT: "#F9F9F9",
@@ -45,7 +46,7 @@ module.exports = {
         "app-blue": {
           lightest: "#E6EFFC",
           lighter: "#1a87ff",
-          DEFAULT: "#007AFF",
+          DEFAULT: "#6699CC",
           darker: "#0055b3",
         },
         "protocol-blue": {
@@ -67,12 +68,12 @@ module.exports = {
         "aquamarine-green": {
           lighter: "#89E4C5",
           light: "#E1FFF3",
-          DEFAULT: "#09E0A3",
+          DEFAULT: "#D4ED7A",
           dark: "#07956D",
         },
         "dark-green": {
           lighter: "rgba(14, 195, 144, 0.25)",
-          DEFAULT: "#0EC390",
+          DEFAULT: "#82B725",
           darker: "#0FA87F",
           pastel: "#D0FBE9",
         },

@@ -30,7 +30,7 @@ export function FooterDark() {
         <div className="flex flex-row md:py-0 py-4">
           <div className="flex flex-1 md:flex-row flex-col md:justify-between md:items-center md:space-y-0 space-y-8">
             <div className="text-sm text-rich-black-lightest md:order-1">
-              Copyright ©
+              Copyright © Shutter 
             </div>
           </div>
           <div className="flex flex-row items-end justify-end">

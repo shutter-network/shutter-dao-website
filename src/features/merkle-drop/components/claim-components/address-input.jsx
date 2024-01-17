@@ -46,13 +46,13 @@ function AddressInput(props) {
     <div>
       <form>
         <div className="flex flex-row mt-2">
-          <Card className="flex-1 md:bg-transparent bg-grey bg-opacity-0 md:bg-opacity-100 py-2 md:px-4 px-0 md:p-0">
+          <Card className="flex-1 md:bg-transparent bg-rich-black-lighter bg-opacity-0 md:bg-opacity-100 py-2 md:px-4 px-0 md:p-0">
             <div className="flex-1 pr-2">
               <div
-                className={`flex flex-row items-center w-full rounded-full bg-card-colors-input_grey text-grey h-12 my-4 ${inputClasses}`}
+                className={`flex flex-row items-center w-full rounded-full bg-rich-black-lightest text-grey h-12 my-4 ${inputClasses}`}
               >
                 <input
-                  className="bg-card-colors-input_grey ml-2 px-2 mr-2 w-full 
+                  className="bg-rich-black-lightest ml-2 px-2 mr-2 w-full
                   rounded-full placeholder-grey-darker text-sm md:text-base font-medium min-w-[170px]"
                   // autoComplete="off"
                   spellCheck="false"
@@ -68,7 +68,7 @@ function AddressInput(props) {
             </div>
             <div className="flex flex-row items-center">
               <Button
-                className={`md:px-8 px-6 py-4 bg-majorelle-blue flex items-center justify-center hover:bg-dark-green transition duration-500 ease-in-out transition-all`}
+                className={`md:px-8 px-6 py-4 bg-grey text-rich-black flex items-center justify-center hover:bg-aquamarine-green transition duration-500 ease-in-out transition-all font-bold`}
                 isDark
                 type="submit"
                 value="Submit"
