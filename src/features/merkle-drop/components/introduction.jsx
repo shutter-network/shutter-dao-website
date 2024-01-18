@@ -34,7 +34,7 @@ export function MerkleDropIntroduction() {
               <br />
               Find out more about delegates at the{" "}
               <a
-                href="https://shutterprotodao.discourse.group/t/shutter-dao-0x36-delegates-list/175"
+                href="https://shutterdao.discourse.group/t/shutter-dao-0x36-delegates-list/175"
                 target="_blank"
                 className="underline"
               >
