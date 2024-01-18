@@ -1,0 +1,29 @@
+[
+    {
+        "vestingId": "0xebe7af62efbb027fd92a15930d806bbb7056782d99eca21629a70735958432db",
+        "account": "0x26903CE9423b007d99BB49A92B518CfcEfEAF6C4",
+        "chainId": 1,
+        "curve": 0,
+        "durationWeeks": 103,
+        "startDate": 1712008800,
+        "amount": "1086956521739130000000",
+        "initialUnlock": "217391304347826000000",
+        "requiresSPT": false,
+        "proof": [
+            "0x1d6a4b9738fcee362b5bbf8e569997601d5881c401da65acf23ba31ab0bb9243",
+            "0x778de5b71adb20565782fe2a3f53a966c67a17b975c0b511fed1444594234f56",
+            "0x8f66718fc6a60f4b344d37c51b98521278f979201cafb1748a8489a80976623f",
+            "0x9f170b13a0fd4090b22c04afc25773b0786f9f1fe71ea6d43bd8ea8240a82549",
+            "0x7680b2e16e1bd64ee1c82ac99a536261973c19a77e50c1f98d3598cc50bb1528",
+            "0x3295692b23d751d87d5cacbc83caed0c5cd5403f2ed67f7d44145fa99051ef54",
+            "0x02fd3590e378b14acbc468c2f7dfef559ae26185353f16852c3d001f44f2e87e",
+            "0x442c3de9caef4bc3261aeeb2c5b7c10ede2e4c4727b117d488b0496ea0401e90",
+            "0x54e8893998e486591601c75ca82c06ce22507821fed569197bb1ec75e65241eb",
+            "0xd5adc4bc30212c4a33b9d63f60c1dc97956e74dc2283c0142179761692ebb67d",
+            "0x5271cbce3a9ccf9ed2431d87d7172130f5363e43d4af6700082f62cfdf0d1f5f",
+            "0x08f3d3f82a3bfa37935ade24751baf39fd5977ab75ffe3211343b11ae2c731c8",
+            "0xfa6c66d5545c693016a3b163530aa1ba9a022a8c631ee58a4e1af572c85be60d",
+            "0x149b0b71fe82bfe38a508f305d202c70ce40606e81697a61bcd418e00754c489"
+        ]
+    }
+]
