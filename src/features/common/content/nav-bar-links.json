@@ -1,6 +1,14 @@
 [
   {
-    "label": "Merkle Drop",
-    "to": "/"
+    "label": "Website",
+    "to": "https://shutter.network/"
+  },
+  {
+    "label": "Blog",
+    "to": "https://blog.shutter.network/"
+  },
+  {
+    "label": "Forum",
+    "to": "https://shutterdao.discourse.group/"
   }
 ]

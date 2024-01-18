@@ -20,7 +20,7 @@ function PrivacyPolicyModal(props) {
                   onClose();
                 }}
                 isDark
-                className="bg-rich-black hover:bg-rich-black-lighter text-off-white px-8 py-4 mx-2"
+                className="bg-shutter-black hover:bg-shutter-black-lighter text-off-white px-8 py-4 mx-2"
               >
                 Close
               </Button>

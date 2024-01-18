@@ -2,8 +2,8 @@ import React from "react";
 
 export function LinkButton(props) {
   const colorClassNames = props.isDark
-    ? "bg-rich-black-lighter text-off-white"
-    : "bg-grey-lighter text-rich-black";
+    ? "bg-shutter-black text-off-white"
+    : "bg-grey-lighter text-shutter-black";
 
   return (
     <div className="flex flex-row">

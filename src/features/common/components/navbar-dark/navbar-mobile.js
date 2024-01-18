@@ -11,7 +11,7 @@ export default function NavbarMobile({ navItems = [] }) {
   const [isFullScreenNavOpen, setIsFullScreenNavOpen] = useState(false);
 
   return isFullScreenNavOpen ? (
-    <div className="fixed top-0 w-full h-full z-50 p-4 bg-rich-black overflow-y-scroll">
+    <div className="fixed top-0 w-full h-full z-50 p-4 bg-shutter-black overflow-y-scroll">
       <div className="flex flex-col">
         <div className="flex flex-row justify-between">
           <div>
@@ -41,7 +41,7 @@ export default function NavbarMobile({ navItems = [] }) {
       </div>
     </div>
   ) : (
-    <div className="sticky top-0 z-50 w-full bg-rich-black p-4 flex flex-row justify-between md:hidden transition duration-500 ease-in-out">
+    <div className="sticky top-0 z-50 w-full bg-shutter-black p-4 flex flex-row justify-between md:hidden transition duration-500 ease-in-out">
       <Link to="/" aria-label="Link to home page">
         <Logo />
       </Link>

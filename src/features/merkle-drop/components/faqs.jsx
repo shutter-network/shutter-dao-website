@@ -4,30 +4,26 @@ import { ArrowDownRight } from "../../common/components/icons/arrow-down-right";
 
 const CONTENTS = [
   {
-    question: "What is the Shutter  Merkle drop?",
-    answer: (
-      <div>
-        The Shutter  Merkle drop is a token distribution for the Shutter  Token.
-      </div>
-    ),
+    question: "",
+    answer: <div></div>,
   },
 ];
 
 export function MerkleDropFaqs() {
   return (
     <section>
-      <div className="md:container mx-auto md:px-20 md:py-32 py-10 merkle-drop-faq">
+      <div className="md:container mx-auto md:px-20 md:pb-32 md:pt-4 py-10 merkle-drop-faq">
         <div>
           <div>
             <h1 className="text-4xl md:text-5xl leading-tight md:my-8 md:mx-0 font-semibold text-grey-darker text-opacity-60 px-4">
-              Merkle Drop FAQ
+              Genesis Allocation FAQ
             </h1>
           </div>
         </div>
         <div className="flex flex-row justify-center px-4">
           <div className="flex flex-col md:w-1/2">
             {CONTENTS.map((content, i) => (
-              <div className="md:py-0 py-4 md:mb-12" key={"question-"+i}>
+              <div className="md:py-0 py-4 md:mb-12" key={"question-" + i}>
                 <div className="flex flex-row items-center md:py-8">
                   <div className="mr-4">
                     <QuestionMark className="md:w-8 md:h-8 w-6 h-6" />

@@ -7,7 +7,7 @@ export default function NavItemMobile({ to, label }) {
       <Link
         className="font-semibold text-2xl "
         to={to}
-        activeClassName="text-majorelle-blue"
+        activeClassName="text-shutter-dark-blue"
       >
         {label}
       </Link>

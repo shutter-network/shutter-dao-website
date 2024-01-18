@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Button({isDark, ...props}: {
+export function LinkButton({isDark, ...props}: {
   isDark?: boolean;
   disabled?: boolean;
   children?: React.ReactNode;

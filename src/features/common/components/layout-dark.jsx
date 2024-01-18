@@ -5,7 +5,7 @@ import { FooterDark } from "./footer-dark";
 
 export function LayoutDark(props) {
   return (
-    <div className="bg-rich-black">
+    <div className="bg-shutter-black">
       <NavBarDark />
       {props.children}
       <FooterDark />
