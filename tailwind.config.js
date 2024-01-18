@@ -17,7 +17,7 @@ module.exports = {
         "max-tightest": "-0.0324em",
       },
       colors: {
-        "rich-black": {
+        "shutter-black": {
           lightest: "#585E60",
           lighter: "#35393A",
           DEFAULT: "#051016",
@@ -33,72 +33,50 @@ module.exports = {
           darker: "#DFE6EA",
         },
         "off-white": {
-          DEFAULT: "#F9F9F9",
+          DEFAULT: "#FAFAFA",
         },
-        "coral-red": {
-          lightest: "#EFAE95",
-          lighter: "#FFD2BF",
-          DEFAULT: "#FF7C4E",
+        "shutter-red": {
+          lightest: "#e37878",
+          lighter: "#e86868",
+          DEFAULT: "#ED6464",
         },
-        "coral-pastel": {
-          DEFAULT: "rgba(255, 210, 191, 1)",
-        },
-        "app-blue": {
-          lightest: "#E6EFFC",
-          lighter: "#1a87ff",
+        "shutter-blue": {
+          lightest: "#C1DDF4",
+          lighter: "#C1DDF4",
           DEFAULT: "#6699CC",
-          darker: "#0055b3",
+          darker: "#2173AA",
         },
-        "protocol-blue": {
-          DEFAULT: "#1e8cc3",
+        "shutter-dark-blue": {
+          lightest: "#C1DDF4",
+          lighter: "#C1DDF4",
+          DEFAULT: "#6699CC",
+          darker: "#2173AA",
         },
-        "majorelle-blue": {
-          lightest: "#FFF0FF",
-          lighter: "#BEB6EC",
-          light: "#897AE7",
-          DEFAULT: "#7657ED",
-          pastel: "#E5E0FF",
-        },
-        "neon-pink": {
-          DEFAULT: "#FFA0B7",
-        },
-        "pink-pastel": {
-          DEFAULT: "#FFDFE7",
-        },
-        "aquamarine-green": {
-          lighter: "#89E4C5",
-          light: "#E1FFF3",
+        "shutter-green": {
+          lighter: "#E9F4C3",
+          light: "#E9F4C3",
           DEFAULT: "#D4ED7A",
-          dark: "#07956D",
+          dark: "#82B725",
         },
-        "dark-green": {
-          lighter: "rgba(14, 195, 144, 0.25)",
+        "shutter-dark-green": {
+          lighter: "#D4ED7A",
           DEFAULT: "#82B725",
-          darker: "#0FA87F",
-          pastel: "#D0FBE9",
-        },
-        "cyber-yellow": {
-          DEFAULT: "#FFD41E",
-          darker: "#DCAE0B",
-          lighter: "rgba(255, 244, 209, 0.75)",
+          darker: "#2D5916",
         },
         "card-colors": {
-          majorelle: "rgba(118, 87, 237, 0.95)",
-          green: "rgba(9, 224, 163, 0.95)",
-          blue: "rgba(0, 122, 255, 0.65)",
-          darkest_grey: "#151515",
-          input_grey:"#363636",
+          majorelle: "rgba(102, 153, 204, 0.95)",
+          green: "rgba(212, 237, 122, 0.95)",
+          blue: "rgba(33, 115, 170, 0.65)",
+          darkest_grey: "#35393A",
+          input_grey:"#585E60",
         },
       },
       boxShadow: {
-        "card-blue": "0px 0px 25px rgba(0, 122, 255, 0.1)",
-        "card-gray": "0px 0px 25px rgba(0, 0, 0, 0.08)",
-        "card-gray-light": "0px 0px 25px #111111",
-        "card-neon-pink": "0px 0px 25px 0px rgba(255, 160, 183, 0.25)",
-        "card-coral-red": " 0px 0px 12.1988px rgba(255, 124, 78, 0.22)",
-        "card-dark-green": "0px 0px 12.1988px rgba(14, 195, 144, 0.17)",
-        "glow-app-blue": "0px 15px 37px rgba(0, 122, 255, 0.25)",
-        "glow-coral-red": "0px 15px 37px rgba(255, 124, 78, 0.25)",
+        "card-blue": "0px 0px 25px rgba(102, 153, 204, 0.1)",
+        "card-gray": "0px 0px 25px rgba(5, 16, 22, 0.08)",
+        "card-gray-light": "0px 0px 25px #35393A",
+        "card-shutter-red": " 0px 0px 12.1988px rgba(237, 100, 100, 0.22)",
+        "card-shutter-dark-green": "0px 0px 12.1988px rgba(130, 183, 37, 0.17)",
       },
       zIndex: {
         "-1": "-1",

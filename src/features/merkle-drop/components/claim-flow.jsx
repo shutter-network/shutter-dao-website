@@ -173,7 +173,7 @@ function ClaimFlow() {
 
   return (
     <div>
-      <Card className="md:shadow-2xl md:bg-rich-black-lighter bg-transparent md:p-4 rounded-xl">
+      <Card className="md:shadow-2xl md:bg-shutter-black-lighter bg-transparent md:p-4 rounded-xl">
         <div className="flex flex-col w-full md:p-4">
           <div className="flex flex-row">
             <Card className="flex flex-row md:bg-opacity-0 bg-opacity-100 bg-card-colors-darkest_grey shadow-2xl p-4 md:p-0 text-off-white">

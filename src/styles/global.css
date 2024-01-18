@@ -21,7 +21,7 @@
   }
 
   .terms-and-conditions h1 {
-    @apply text-rich-black-lighter md:text-3xl text-2xl font-semibold py-4
+    @apply text-shutter-black-lighter md:text-3xl text-2xl font-semibold py-4
   }
 
   .terms-and-conditions h2 {
@@ -49,19 +49,19 @@
   }
 
   .terms-and-conditions pre {
-    @apply p-4 overflow-auto bg-rich-black-lighter rounded-xl;
+    @apply p-4 overflow-auto bg-shutter-black-lighter rounded-xl;
     white-space: pre-wrap;
   }
 
   .toggle-checkbox:checked {
-    @apply right-0 border-dark-green
+    @apply right-0 border-shutter-dark-green
   }
   .toggle-checkbox:checked + .toggle-label {
-    @apply bg-dark-green
+    @apply bg-shutter-dark-green
   }
 
   .spinner {
-    @apply animate-spin border-4 border-majorelle-blue;
+    @apply animate-spin border-4 border-shutter-dark-blue;
     border-bottom-color: #E5E0FF;
     border-radius: 50%;
     border-right-color: #7657ED;
@@ -71,7 +71,7 @@
   }
 
   .spinner-dark {
-    @apply animate-spin border-4 border-dark-green-darker;
+    @apply animate-spin border-4 border-shutter-dark-green-darker;
     border-bottom-color: rgba(14, 195, 144, 0.25);
     border-radius: 50%;
     border-right-color: #0FA87F;
@@ -88,7 +88,7 @@
   }
 
   .merkle-drop-faq a {
-    @apply underline text-majorelle-blue
+    @apply underline text-shutter-dark-blue
   }
 
   .merkle-drop-faq ul {

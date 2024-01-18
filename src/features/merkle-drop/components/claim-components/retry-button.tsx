@@ -11,7 +11,7 @@ function RetryButton(props: Props) {
   const showText = props.showText || false;
   const classNames =
     props.className ||
-    "px-8 py-3 mx-2 bg-majorelle-blue hover:bg-majorelle-blue-light hover:text-off-white";
+    "px-8 py-3 mx-2 bg-shutter-dark-blue hover:bg-shutter-dark-blue-light hover:text-off-white";
 
   return (
     <div>

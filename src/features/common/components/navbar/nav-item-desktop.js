@@ -6,8 +6,8 @@ export default function NavItemDesktop({ to, label, subNavItems = [] }) {
     <div className="cursor-pointer inline-block">
       <div className="flex flex-col justify-center">
         <Link
-          className="text-base whitespace-nowrap text-rich-black-lighter mr-8 cursor-pointer hover:text-majorelle-blue"
-          activeClassName="text-majorelle-blue"
+          className="text-base whitespace-nowrap text-shutter-black-lighter mr-8 cursor-pointer hover:text-shutter-dark-blue"
+          activeClassName="text-shutter-dark-blue"
           to={to}
           key={label}
         >

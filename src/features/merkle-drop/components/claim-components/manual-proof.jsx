@@ -45,9 +45,9 @@ function ManualProof({ proof, originalAmount, closeModal }) {
                     </label>
                   </div>
                   <div className="flex-1">
-                    <div className="flex flex-row items-center w-full rounded-full bg-grey-lighter text-rich-black-ligther h-12 my-4">
+                    <div className="flex flex-row items-center w-full rounded-full bg-grey-lighter text-shutter-black-ligther h-12 my-4">
                       <input
-                        className="bg-grey-lighter ml-2 px-2 w-full rounded-full placeholder-rich-black-lightest text-center"
+                        className="bg-grey-lighter ml-2 px-2 w-full rounded-full placeholder-shutter-black-lightest text-center"
                         autoComplete="off"
                         spellCheck="false"
                         type="text"
@@ -67,9 +67,9 @@ function ManualProof({ proof, originalAmount, closeModal }) {
                     </label>
                   </div>
                   <div className="flex-1">
-                    <div className="flex flex-row items-center w-full rounded-full bg-grey-lighter text-rich-black-ligther h-12 my-4">
+                    <div className="flex flex-row items-center w-full rounded-full bg-grey-lighter text-shutter-black-ligther h-12 my-4">
                       <input
-                        className="bg-grey-lighter ml-2 px-2 w-full rounded-full placeholder-rich-black-lightest text-center"
+                        className="bg-grey-lighter ml-2 px-2 w-full rounded-full placeholder-shutter-black-lightest text-center"
                         autoComplete="off"
                         spellCheck="false"
                         type="text"
@@ -89,7 +89,7 @@ function ManualProof({ proof, originalAmount, closeModal }) {
                     </label>
                   </div>
                   <div className="flex-1">
-                    <div className="w-full rounded-2xl bg-grey-lighter text-rich-black-ligther my-4">
+                    <div className="w-full rounded-2xl bg-grey-lighter text-shutter-black-ligther my-4">
                       <div className="flex flex-row justify-end">
                         <Button className="p-4" onClick={copyProof}>
                           <Copy />
@@ -100,7 +100,7 @@ function ManualProof({ proof, originalAmount, closeModal }) {
                         autoComplete="off"
                         spellCheck="false"
                         value={JSON.stringify(proof)}
-                        className="bg-grey-lighter px-4 rounded-2xl w-full placeholder-rich-black-lightest text-center"
+                        className="bg-grey-lighter px-4 rounded-2xl w-full placeholder-shutter-black-lightest text-center"
                         readOnly
                       />
                     </div>

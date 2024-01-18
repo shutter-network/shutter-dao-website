@@ -46,13 +46,13 @@ function AddressInput(props) {
     <div>
       <form>
         <div className="flex flex-row mt-2">
-          <Card className="flex-1 md:bg-transparent bg-rich-black-lighter bg-opacity-0 md:bg-opacity-100 py-2 md:px-4 px-0 md:p-0">
+          <Card className="flex-1 md:bg-transparent bg-shutter-black-lighter bg-opacity-0 md:bg-opacity-100 py-2 md:px-4 px-0 md:p-0">
             <div className="flex-1 pr-2">
               <div
-                className={`flex flex-row items-center w-full rounded-full bg-rich-black-lightest text-grey h-12 my-4 ${inputClasses}`}
+                className={`flex flex-row items-center w-full rounded-full bg-shutter-black-lightest text-grey h-12 my-4 ${inputClasses}`}
               >
                 <input
-                  className="bg-rich-black-lightest ml-2 px-2 mr-2 w-full
+                  className="bg-shutter-black-lightest ml-2 px-2 mr-2 w-full
                   rounded-full placeholder-grey-darker text-sm md:text-base font-medium min-w-[170px]"
                   // autoComplete="off"
                   spellCheck="false"
@@ -68,7 +68,7 @@ function AddressInput(props) {
             </div>
             <div className="flex flex-row items-center">
               <Button
-                className={`md:px-8 px-6 py-4 bg-grey text-rich-black flex items-center justify-center hover:bg-aquamarine-green transition duration-500 ease-in-out transition-all font-bold`}
+                className={`md:px-8 px-6 py-4 bg-grey text-shutter-black flex items-center justify-center hover:bg-shutter-green transition duration-500 ease-in-out transition-all font-bold`}
                 isDark
                 type="submit"
                 value="Submit"
@@ -83,7 +83,7 @@ function AddressInput(props) {
           <Card className="flex-1 md:bg-transparent md:shadow-none bg-card-colors-darkest_grey shadow-2xl md:py-2 py-0 px-4 md:p-0 mt-2 z-20 p-4">
             <div className="p-2 md:p-0">
               {!address ? (
-                <p className="text-dark-green text-sm">
+                <p className="text-shutter-dark-green text-sm">
                   Enter your Ethereum address to check if it is eligible to
                   claim.
                 </p>
@@ -92,7 +92,7 @@ function AddressInput(props) {
                   Please enter a valid address
                 </p>
               ) : (
-                <p className="text-dark-green text-sm">&nbsp;</p>
+                <p className="text-shutter-dark-green text-sm">&nbsp;</p>
               )}
             </div>
           </Card>

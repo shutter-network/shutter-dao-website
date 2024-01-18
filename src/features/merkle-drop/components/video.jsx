@@ -34,8 +34,8 @@ export function MerkleDropVideo() {
   opts.height = Math.floor((opts.width * 9) / 16);
 
   return (
-    <section className="bg-rich-black">
-      <div className="flex flex-col items-center justify-center bg-dark-green-lighter">
+    <section className="bg-shutter-black">
+      <div className="flex flex-col items-center justify-center bg-shutter-dark-green-lighter">
         <div className="flex flex-col items-center justify-center">
           <div className={showPlayer ? "visible" : "invisible"}>
             <YouTube

@@ -50,7 +50,7 @@ function TermsAndConditionsModal(props) {
                   onReject();
                 }}
                 isDark
-                className="rounded-full text-sm bg-rich-black-lightest text-off-white px-8 py-4 mx-2 hover:bg-rich-black-lighter"
+                className="rounded-full text-sm bg-shutter-black-lightest text-off-white px-8 py-4 mx-2 hover:bg-shutter-black-lighter"
               >
                 Reject
               </button>
@@ -59,7 +59,7 @@ function TermsAndConditionsModal(props) {
                   onAccept();
                 }}
                 isDark
-                className="rounded-full text-sm bg-app-blue disabled:bg-grey text-white px-8 py-4 mx-2 hover:bg-app-blue-lighter"
+                className="rounded-full text-sm bg-shutter-blue disabled:bg-grey text-white px-8 py-4 mx-2 hover:bg-shutter-blue-lighter"
                 disabled={!scrolledToModalBottom}
               >
                 Accept

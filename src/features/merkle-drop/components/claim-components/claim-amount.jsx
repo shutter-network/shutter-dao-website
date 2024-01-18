@@ -40,7 +40,7 @@ function ClaimAmount({
           Yes, this address is eligible for a token claim.
         </div>
         <div className="subtitle is-6 has-text-success">
-          <span className="text-dark-green-darker font-semibold">
+          <span className="text-shutter-dark-green-darker font-semibold">
             {parseTokenAmount(tokenAmount)} {process.env.REACT_APP_TOKEN_SYMBOL}
           </span>{" "}
           claimable
@@ -64,7 +64,7 @@ function ClaimAmount({
           <Button
             onClick={handleClaim}
             isDark
-            className="px-8 py-4 hover:bg-dark-green"
+            className="px-8 py-4 hover:bg-shutter-dark-green"
             disabled={!canClaim}
           >
             Claim tokens now

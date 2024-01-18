@@ -19,7 +19,7 @@ function ManualProofWrapper({ proof, amount, requestTermsAndCondition }) {
         <Button
           onClick={handleToggle}
           isDark
-          className="px-8 py-4 hover:bg-dark-green"
+          className="px-8 py-4 hover:bg-shutter-dark-green"
         >
           <h5
             className={

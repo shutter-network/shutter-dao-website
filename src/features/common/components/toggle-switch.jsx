@@ -7,14 +7,14 @@ export default function ToggleSwitch(props) {
         <input
           {...props}
           type="checkbox"
-          className="toggle-checkbox absolute block w-8 h-8 rounded-full bg-white border-4 border-rich-black-lightest appearance-none cursor-pointer"
+          className="toggle-checkbox absolute block w-8 h-8 rounded-full bg-white border-4 border-shutter-black-lightest appearance-none cursor-pointer"
         />
         <label
           for={props.name}
-          className={`toggle-label block overflow-hidden h-8 rounded-full bg-rich-black-lightest cursor-pointer ${props.className}`}
+          className={`toggle-label block overflow-hidden h-8 rounded-full bg-shutter-black-lightest cursor-pointer ${props.className}`}
         ></label>
       </div>
-      <label for={props.name} className="text-sm text-rich-black-lightest">
+      <label for={props.name} className="text-sm text-shutter-black-lightest">
         {props.label}
       </label>
     </div>

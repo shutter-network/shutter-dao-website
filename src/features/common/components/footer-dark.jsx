@@ -5,7 +5,7 @@ import footerGroups from "../content/footer-groups";
 
 export function FooterDark() {
   return (
-    <div className="bg-card-colors-darkest_grey">
+    <div className="bg-shutter-black">
       <div className="md:container mx-auto md:px-24 px-4 md:py-20 py-10">
         <div className="flex md:flex-row flex-col md:justify-between md:mb-20">
           {footerGroups.map(group => (
@@ -19,7 +19,7 @@ export function FooterDark() {
                   href={item.href}
                   target={item.id || "_blank"}
                   rel={!item.id ? "noopener noreferrer" : ""}
-                  className="md:mb-4 mb-1 text-grey text-base hover:text-majorelle-blue font-medium"
+                  className="md:mb-4 mb-1 text-grey text-base hover:text-shutter-dark-blue font-medium"
                 >
                   {item.label}
                 </a>
@@ -29,8 +29,8 @@ export function FooterDark() {
         </div>
         <div className="flex flex-row md:py-0 py-4">
           <div className="flex flex-1 md:flex-row flex-col md:justify-between md:items-center md:space-y-0 space-y-8">
-            <div className="text-sm text-rich-black-lightest md:order-1">
-              Copyright © Shutter 
+            <div className="text-sm text-shutter-black-lightest md:order-1">
+              Copyright © Shutter
             </div>
           </div>
           <div className="flex flex-row items-end justify-end">

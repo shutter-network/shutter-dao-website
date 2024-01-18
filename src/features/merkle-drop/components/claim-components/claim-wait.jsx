@@ -16,7 +16,7 @@ function ClaimWait({ txHash }) {
           target="_blank"
           rel="noopener noreferrer"
           href={blockexplorer.generateTransactionUrl(txHash)}
-          className="text-app-blue"
+          className="text-shutter-blue"
         >
           Etherscan
         </a>

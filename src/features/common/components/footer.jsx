@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex md:flex-row flex-col md:justify-between md:mb-20">
           {footerGroups.map(group => (
             <div key={group.label} className="flex flex-col md:mb-0 mb-4">
-              <div className="text-rich-black text-lg md:text-base font-semibold md:mb-8 mb-1">
+              <div className="text-shutter-black text-lg md:text-base font-semibold md:mb-8 mb-1">
                 {group.label}
               </div>
               {group.items.map((item, i) => (
@@ -19,7 +19,7 @@ export function Footer() {
                   href={item.href}
                   target={item.id || "_blank"}
                   rel={!item.id && "noopener noreferrer"}
-                  className="md:mb-4 mb-1 text-rich-black text-base hover:text-majorelle-blue"
+                  className="md:mb-4 mb-1 text-shutter-black text-base hover:text-shutter-dark-blue"
                 >
                   {item.label}
                 </a>
@@ -29,7 +29,7 @@ export function Footer() {
         </div>
         <div className="flex flex-row md:py-0 py-4">
           <div className="flex flex-1 md:flex-row flex-col md:justify-between md:items-center md:space-y-0 space-y-8">
-            <div className="text-sm text-rich-black-lightest md:order-1">
+            <div className="text-sm text-shutter-black-lightest md:order-1">
               Copyright ©
             </div>
           </div>
