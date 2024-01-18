@@ -203,7 +203,7 @@ export const Vesting = ({
                   Claiming Start Date
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-                  {vesting.startDate}
+                  {new Date(vesting.startDate).toLocaleDateString()}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
