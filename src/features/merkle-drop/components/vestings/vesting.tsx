@@ -137,7 +137,7 @@ export const Vesting = ({
           {vesting.requiresSPT && (
             <div className="mt-2 text-sm text-red-700">
               <strong>Note:</strong> this is a special allocation for SPT token
-              holders. You can activate the allocation now, but later when you 
+              holders. You can activate the allocation now, but later when you
               want to claim your tokens you will need to have SPT tokens to exchange
               for the {process.env.REACT_APP_TOKEN_SYMBOL} tokens.
             </div>
@@ -196,6 +196,14 @@ export const Vesting = ({
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
                   <LinkToAddress address={vesting.contract} />
+                </dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-white">
+                  Claiming Start Date
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
+                  {vesting.startDate}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
