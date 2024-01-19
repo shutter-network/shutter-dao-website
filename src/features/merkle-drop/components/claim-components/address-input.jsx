@@ -20,7 +20,7 @@ function AddressInput(props) {
     (event) => {
       const newAddress = event.target.value;
       if (addressRegex.test(newAddress)) {
-        setAddress(getAddress(newAddress.toLowerCase());
+        setAddress(getAddress(newAddress.toLowerCase()));
       }
     },
     [addressRegex]
