@@ -4,6 +4,7 @@ import { isAddress } from "web3-validator";
 import { CHAIN_STATE } from "../../../common/hooks/chain-state";
 import { Button } from "../../../common/components/button";
 import { Card } from "../../../common/components/card";
+import { Traget } from "../../../common/components/icons/target";
 
 function AddressInput(props) {
   const addressRegex = new RegExp("^(0x)?[a-fA-F0-9]*$");
@@ -86,6 +87,8 @@ function AddressInput(props) {
                 <p className="text-shutter-dark-green text-sm">
                   Enter your Ethereum address to check if it is eligible to
                   claim.
+                  <br />
+                  <br />
                 </p>
               ) : invalid ? (
                 <p className="text-neon-pink text-sm">
@@ -96,6 +99,21 @@ function AddressInput(props) {
               )}
             </div>
           </Card>
+          <div className="flex flex-row items-center">
+            <div className="text-white text-sm">
+              <b>Note:</b>{" "}
+              You should activate your vesting and delegate
+              your tokens to be able to participate in governance for
+              Shutter DAO 0x36. Specified <b>Claim Date</b> is when you
+              can claim tokens according to your vesting schedule.
+              <br />
+              <br />
+              Shutter Tokens of Shutter DAO 0x36 are non-transferable
+              until unpaused. An on-chain vote will be needed for
+              Shutter DAO 0x36 to unpause the token, enabling
+              transferring of tokens.
+            </div>
+          </div>
         </div>
         <div className="py-2">
           {chainState === CHAIN_STATE.DISCONNECTED && (
