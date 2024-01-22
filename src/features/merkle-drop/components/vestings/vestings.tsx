@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 
-import {
-  CheckCircleIcon,
-} from "@heroicons/react/24/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 import { type VestingType, Vesting } from "./vesting";
 import { VestingPoolInfo } from "./vesting-pool-info";
@@ -14,6 +12,14 @@ function Vestings({
   vestings: VestingType[];
   account: string;
 }) {
+  const noDupVestings = Object.values(
+    vestings.reduce(
+      (r: { [k: string]: VestingType }, v) => (
+        r[v.vestingId] = v, r
+      ),
+      {}
+    )
+  ).flat();
 
   return (
     <div>
@@ -29,9 +35,9 @@ function Vestings({
             <div className="ml-3">
               <h3 className="text-sm font-bold text-green-800">
                 Congrats! There{" "}
-                {vestings.length == 1
+                {noDupVestings.length == 1
                   ? "is 1 allocation"
-                  : `are ${vestings.length} allocations`}{" "}
+                  : `are ${noDupVestings.length} allocations`}{" "}
                 for this address.
               </h3>
               <VestingPoolInfo account={account} />
@@ -40,7 +46,7 @@ function Vestings({
         </div>
       </div>
 
-      {vestings.map((vesting, index) => {
+      {noDupVestings.map((vesting, index) => {
         return (
           <div key={index}>
             <Vesting vesting={vesting} index={index} />

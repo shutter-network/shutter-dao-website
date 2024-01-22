@@ -4,6 +4,7 @@ import { isAddress } from "web3-validator";
 import { CHAIN_STATE } from "../../../common/hooks/chain-state";
 import { Button } from "../../../common/components/button";
 import { Card } from "../../../common/components/card";
+import { getAddress } from "ethers";
 import { Traget } from "../../../common/components/icons/target";
 
 function AddressInput(props) {
@@ -20,7 +21,7 @@ function AddressInput(props) {
     (event) => {
       const newAddress = event.target.value;
       if (addressRegex.test(newAddress)) {
-        setAddress(newAddress);
+        setAddress(getAddress(newAddress.toLowerCase()));
       }
     },
     [addressRegex]

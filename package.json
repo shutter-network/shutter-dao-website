@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "ethers": "^6.10.0",
     "gatsby": "^5.13.0",
     "gatsby-plugin-postcss": "^6.13.0",
     "postcss": "^8.4.32",
