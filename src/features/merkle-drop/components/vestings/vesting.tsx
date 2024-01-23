@@ -13,7 +13,6 @@ import { WarningAccount } from "./warning-account";
 import ClaimableAmount from "./claimable-amount";
 import { useAccount } from "../../../common/hooks/account";
 
-
 export type VestingType = {
   account: string;
   amount: string;
@@ -139,8 +138,8 @@ export const Vesting = ({
             <div className="mt-2 text-sm text-red-700">
               <strong>Note:</strong> this is a special allocation for SPT token
               holders. You can activate the allocation now, but later when you
-              want to claim your tokens you will need to have SPT tokens to exchange
-              for the {process.env.REACT_APP_TOKEN_SYMBOL} tokens.
+              want to claim your tokens you will need to have SPT tokens to
+              exchange for the {process.env.REACT_APP_TOKEN_SYMBOL} tokens.
             </div>
           )}
         </div>

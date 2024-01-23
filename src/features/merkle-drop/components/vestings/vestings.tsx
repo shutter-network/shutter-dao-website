@@ -14,9 +14,7 @@ function Vestings({
 }) {
   const noDupVestings = Object.values(
     vestings.reduce(
-      (r: { [k: string]: VestingType }, v) => (
-        r[v.vestingId] = v, r
-      ),
+      (r: { [k: string]: VestingType }, v) => ((r[v.vestingId] = v), r),
       {}
     )
   ).flat();

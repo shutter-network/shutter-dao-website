@@ -19,7 +19,7 @@ function ClaimAmount({
   }, [onClaim, proof, tokenAmount]);
 
   const canClaim =
-    (chainState === CHAIN_STATE.CONNECTED ||
+  (chainState === CHAIN_STATE.CONNECTED ||
       chainState === CHAIN_STATE.CHAIN_UNKNOWN) &&
     !wrongAccount;
 
