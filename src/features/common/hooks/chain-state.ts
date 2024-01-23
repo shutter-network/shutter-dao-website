@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import getWeb3, { verifyChainId } from "../api/web3";
+import { useWeb3 } from "./web3";
+import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
 export enum CHAIN_STATE {
   CONNECTING = "connecting",
@@ -10,8 +11,11 @@ export enum CHAIN_STATE {
 }
 
 export function useChainState(): CHAIN_STATE {
-  const [chainState, setChainState] = useState<CHAIN_STATE>(CHAIN_STATE.CONNECTING);
-
+  const [chainState, setChainState] = useState<CHAIN_STATE>(
+    CHAIN_STATE.CONNECTING
+  );
+  const web3 = useWeb3();
+  const { chainId } = useWeb3ModalAccount();
   useEffect(() => {
     interface Environment {
       chainCheckIntervalId: number;
@@ -23,10 +27,14 @@ export function useChainState(): CHAIN_STATE {
 
     async function connect(): Promise<void> {
       try {
-        if (getWeb3()) {
+        if (web3) {
           async function checkChain(): Promise<void> {
             try {
-              if (await verifyChainId(process.env.REACT_APP_CHAIN_ID)) {
+              if (
+                chainId &&
+                BigInt(chainId) ===
+                  BigInt(process.env.REACT_APP_CHAIN_ID as unknown as string)
+              ) {
                 setChainState(CHAIN_STATE.CONNECTED);
               } else {
                 setChainState(CHAIN_STATE.WRONG_CHAIN);

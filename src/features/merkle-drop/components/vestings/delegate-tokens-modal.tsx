@@ -1,5 +1,5 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "../../../common/components/button";
 
 import { useCallback } from "react";
@@ -11,6 +11,7 @@ import { SpinIcon } from "../../../common/components/spin-icon";
 import { isEthAddress } from "../../../common/utils/address";
 import { Modal } from "../../../common/components/modal";
 import { getTokenSymbol } from "../../../common/utils/token";
+import { useWeb3 } from "../../../common/hooks/web3";
 
 function DelegateTokensModal({
   poolAddress,
@@ -27,6 +28,7 @@ function DelegateTokensModal({
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState("");
   const [delegateTo, setDelegateTo] = useState<string>("");
+  const web3 = useWeb3();
 
   const handleSign = async (tx: any) => {
     console.log("handleSign", tx);
@@ -58,6 +60,7 @@ function DelegateTokensModal({
     }
 
     await delegateTokens(
+      web3,
       poolAddress,
       userAddress,
       delegateTo,
@@ -66,7 +69,7 @@ function DelegateTokensModal({
       onError
     );
     setIsProcessing(false);
-  }, [delegateTo]);
+  }, [delegateTo, web3]);
 
   const modalBody = (
     <>
@@ -99,7 +102,7 @@ function DelegateTokensModal({
             <div className="mt-2">
               <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                 <span className="block flex select-none items-center  py-1.5 px-3 text-gray-500 sm:text-sm">
-                  {parseTokenAmount(poolBalance)}{" "}{getTokenSymbol()}
+                  {parseTokenAmount(poolBalance)} {getTokenSymbol()}
                 </span>
               </div>
             </div>

@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { VestingType } from "./vesting";
-import { approve, redeem } from "../../api/web3";
+import { redeem } from "../../api/web3";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import { SpinIcon } from "../../../common/components/spin-icon";
 import TermsAndConditions from "../claim-components/terms-modal";
-
+import { useWeb3 } from "../../../common/hooks/web3";
 
 export const ActivateVesting = ({
   vesting,
@@ -24,6 +24,7 @@ export const ActivateVesting = ({
   const [onAcceptTermsAndCondition, setOnAcceptTermsAndCondition] = useState(
     () => () => {}
   );
+  const web3 = useWeb3();
 
   const handleSign = async (tx: any) => {};
 
@@ -43,6 +44,7 @@ export const ActivateVesting = ({
     setError("");
 
     await redeem(
+      web3,
       vesting.account,
       vesting.amount,
       vesting.curve,
