@@ -1,11 +1,11 @@
 export const projectId = process.env
   .REACT_APP_WALLETCONNECT_PROJECT_ID as string;
 export const mainnet = {
-  chainId: 1,
-  name: "Ethereum",
+  chainId: parseInt(process.env.REACT_APP_CHAIN_ID as string),
+  name: process.env.REACT_APP_CHAIN_NAME,
   currency: "ETH",
-  explorerUrl: "https://etherscan.io",
-  rpcUrl: "https://cloudflare-eth.com",
+  explorerUrl: process.env.REACT_APP_EXPLORER_URL,
+  rpcUrl: process.env.REACT_APP_WEB3_PROVIDER_URL,
 };
 
 // 3. Create modal
