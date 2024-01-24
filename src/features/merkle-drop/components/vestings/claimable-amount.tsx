@@ -19,6 +19,7 @@ import { isEthAddress } from "../../../common/utils/address";
 import { SpinIcon } from "../../../common/components/spin-icon";
 import { Receipt } from "web3";
 import { WarningAccount } from "./warning-account";
+import { useWeb3 } from "../../../common/hooks/web3";
 
 const sptToken = process.env.REACT_SPT_TOKEN_CONTRACT_ADDRESS as string;
 const tokenAddress = process.env.REACT_APP_SHU_TOKEN_CONTRACT_ADDRESS;
@@ -31,7 +32,7 @@ const ClaimableAmount = ({
   vestingDataFromServer: VestingType;
 }) => {
   const account = useAccount();
-
+  const web3 = useWeb3();
   const [claimableAmount, setClaimableAmount] = useState<bigint>(0n);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -60,8 +61,6 @@ const ClaimableAmount = ({
     getChainData();
   }, [vestingOnChain]);
 
-
-
   const onConfirmation = (confirmations: bigint, receipt: Receipt) => {
     setIsProcessing(false);
     setShowModal(false);
@@ -78,7 +77,6 @@ const ClaimableAmount = ({
     if (!account) {
       return;
     }
-
 
     // verify that tokenToClaim is a valid number and it is lower than claimableAmount
     if (tokensToClaim === "") {
@@ -107,6 +105,7 @@ const ClaimableAmount = ({
         return;
       }
       await approve(
+        web3,
         sptToken,
         vestingDataFromServer.account,
         convertToWei(tokensToClaim),
@@ -117,8 +116,8 @@ const ClaimableAmount = ({
       );
     }
 
-
     await claimTokensOnPool(
+      web3,
       account,
       vestingDataFromServer.account,
       vestingDataFromServer.vestingId,

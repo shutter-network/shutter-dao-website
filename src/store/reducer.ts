@@ -14,21 +14,23 @@ export type State = {
   };
 };
 
-export type Action = {
-  type: "update_pool_info";
-  payload: {
-    account: string;
-    poolAddress?: string;
-    balance?: bigint;
-    delegatee?: string;
-  };
-} | {
-    type: "update_vesting_info";
-    payload: {
+export type Action =
+  | {
+      type: "update_pool_info";
+      payload: {
+        account: string;
+        poolAddress?: string;
+        balance?: bigint;
+        delegatee?: string;
+      };
+    }
+  | {
+      type: "update_vesting_info";
+      payload: {
         vestingId: string;
         vesting: VestingOnchainType;
+      };
     };
-}
 
 // Define your reducer
 export const reducer = (state: State, action: Action) => {
@@ -39,26 +41,26 @@ export const reducer = (state: State, action: Action) => {
       return {
         ...state,
         accounts: {
-            ...state.accounts,
-            [payload.account]: {
-                ...currentAccount,
-                pool: payload.poolAddress || currentAccount.pool,
-                balance: payload.balance || currentAccount.balance,
-                delegatee: payload.delegatee || currentAccount.delegatee,
-            },
-        }
-      };  
-      case "update_vesting_info":
-        const vestingPayload = action.payload;
-        return {
-          ...state,
-          vestings: {
-              ...state.vestings,
-              [vestingPayload.vestingId]: {
-                  ...vestingPayload.vesting,
-              },
-          }
-        };
+          ...state.accounts,
+          [payload.account]: {
+            ...currentAccount,
+            pool: payload.poolAddress || currentAccount.pool,
+            balance: payload.balance || currentAccount.balance,
+            delegatee: payload.delegatee || currentAccount.delegatee,
+          },
+        },
+      };
+    case "update_vesting_info":
+      const vestingPayload = action.payload;
+      return {
+        ...state,
+        vestings: {
+          ...state.vestings,
+          [vestingPayload.vestingId]: {
+            ...vestingPayload.vesting,
+          },
+        },
+      };
     default:
       throw new Error("No action type found", action);
   }

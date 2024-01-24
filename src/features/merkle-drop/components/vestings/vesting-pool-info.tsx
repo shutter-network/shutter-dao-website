@@ -47,8 +47,7 @@ export const VestingPoolInfo = ({ account }: { account: string }) => {
             Contract address: <LinkToAddress address={pool} />
           </li>
           <li>
-            Contract balance:{" "}
-            {formatTokenAmount(parseTokenAmount(balance))}
+            Contract balance: {formatTokenAmount(parseTokenAmount(balance))}
           </li>
           <li>
             <div className="flex flex-row">

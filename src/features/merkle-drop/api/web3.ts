@@ -2,8 +2,7 @@ import MerkleDropABI from "../../common/abi/airdrop";
 import VestingPoolManagerABI from "../../common/abi/VestingPoolManager";
 import VestingPoolABI from "../../common/abi/VestingPool";
 import TokenABI from "../../common/abi/token";
-import { Contract, EventLog, Receipt, Web3 } from "web3";
-import { default as metamaskWeb3 } from "../../common/api/web3";
+import { Contract, Receipt, Web3 } from "web3";
 
 type ConfirmationType = { confirmations: bigint; receipt: Receipt };
 let web3Initialized: null | Web3 = null;
@@ -25,6 +24,7 @@ export async function getTokenContract(
 }
 
 export async function approve(
+  web3: Web3,
   tokenAddress: string,
   sender: string,
   amount: bigint,
@@ -33,7 +33,6 @@ export async function approve(
   onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
   onError?: (error: any) => void
 ): Promise<any> {
-  const web3 = metamaskWeb3();
   const tokenContract = await new web3.eth.Contract(TokenABI, tokenAddress);
   try {
     return await tokenContract.methods
@@ -151,6 +150,7 @@ export async function getTokensAvailableForWithdrawal(
 }
 
 export async function claimTokens(
+  web3: Web3,
   from: string,
   vestingPoolForUser: string,
   vestingId: string,
@@ -159,8 +159,6 @@ export async function claimTokens(
   onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
   onError?: (error: any) => void
 ) {
-  const web3 = metamaskWeb3();
-
   const userPool = await getUserVestingPool(vestingPoolForUser);
 
   if (!userPool) {
@@ -195,6 +193,7 @@ export async function claimTokens(
   }
 }
 export async function delegateTokens(
+  web3: Web3,
   poolAddress: string,
   from: string,
   to: string,
@@ -202,8 +201,6 @@ export async function delegateTokens(
   onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
   onError?: (error: any) => void
 ) {
-  const web3 = metamaskWeb3();
-
   const userVestingPool = new web3.eth.Contract(VestingPoolABI, poolAddress);
 
   if (!userVestingPool) {
@@ -228,6 +225,7 @@ export async function delegateTokens(
   }
 }
 export async function redeem(
+  web3: Web3,
   address: string,
   amount: string,
   curveType: number,
@@ -240,8 +238,6 @@ export async function redeem(
   onConfirmation?: (confirmations: bigint, receipt: Receipt) => void,
   onError?: (error: any) => void
 ): Promise<any> {
-  const web3 = metamaskWeb3();
-
   const merkleDropContract = new web3.eth.Contract(
     MerkleDropABI,
     process.env.REACT_APP_AIRDROP_CONTRACT_ADDRESS

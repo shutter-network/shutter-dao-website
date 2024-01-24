@@ -1,8 +1,8 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import React from "react";
 import { useAccount } from "../../../common/hooks/account";
-import { requestPermission } from "../../../common/api/web3";
 import { CHAIN_STATE, useChainState } from "../../../common/hooks/chain-state";
+import { useWeb3Modal } from "@web3modal/ethers/react";
 
 export const WarningAccount = ({
   vestingAccount,
@@ -15,9 +15,10 @@ export const WarningAccount = ({
 }) => {
   const account = useAccount();
   const chainState = useChainState();
+  const { open } = useWeb3Modal();
 
   const connect = async () => {
-    await requestPermission();
+    open({ view: "Connect" });
   };
 
   if (!account) {
@@ -92,7 +93,7 @@ export const WarningAccount = ({
             <div className="mt-2 pr-10 text-sm text-yellow-700 overflow-x-auto">
               <p>
                 {customWrongChainMessage ||
-                  `You are connected to the wrong network. Switch to 
+                  `You are connected to the wrong network. Switch to
                   ${process.env.REACT_APP_CHAIN_NAME} to proceed with claiming.`}
               </p>
             </div>

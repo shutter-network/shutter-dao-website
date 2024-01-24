@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../../../common/components/button";
-import { TrashIcon} from "@heroicons/react/24/solid"
+import { TrashIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   reset: () => void;
@@ -16,17 +16,14 @@ function RetryButton(props: Props) {
   return (
     <div>
       <div>
-        <Button
-          isDark
-          onClick={props.reset}
-          className={classNames}
-        >
+        <Button isDark onClick={props.reset} className={classNames}>
           <div className="flex flex-row items-center align-middle">
             <TrashIcon className="h-5" />
-            {showText && <span className="pt-1 pl-1">Enter different address</span>}
+            {showText && (
+              <span className="pt-1 pl-1">Enter different address</span>
+            )}
           </div>
-
-          </Button>
+        </Button>
       </div>
     </div>
   );
