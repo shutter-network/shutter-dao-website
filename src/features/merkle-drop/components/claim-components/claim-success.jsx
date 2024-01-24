@@ -16,6 +16,19 @@ function ClaimSuccess({ confirmations, txHash, amount, reset }) {
         {amount && parseTokenAmount(amount)} <br />
         Tokens successfully claimed!
       </div>
+      <div className="text-shutter-new text-sm">
+        <b>Note:</b>{" "}
+        You should activate your vesting and delegate
+        your tokens to be able to participate in governance for
+        Shutter DAO 0x36. Specified <b>Claim Date</b> is when you
+        can claim tokens according to your vesting schedule.
+        <br />
+        <br />
+        Shutter Tokens of Shutter DAO 0x36 are non-transferable
+        until unpaused. An on-chain vote will be needed for
+        Shutter DAO 0x36 to unpause the token, enabling
+        transferring of tokens.
+      </div>
       <div className="pb-4">
         <Message>[{confirmationsString}] confirmations</Message>
       </div>
