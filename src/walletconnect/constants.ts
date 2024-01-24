@@ -11,7 +11,7 @@ export const mainnet = {
 // 3. Create modal
 export const metadata = {
   name: "Shutter Network Genesis Allocations",
-  description: "Shutter Network Genesis Allocations",
+  description: "Claim tokens of your Shutter Network Genesis Allocations. The Genesis Allocations are smart contracts deployed on the Ethereum blockchain. An allocation contains a list of addresses as they have been deployed in the and the amount of claimable Shutter Tokens (e.g., SHU) per address in the form of a Merkle root.",
   url: "https://claim.shutter.network/",
   icons: [],
 };
