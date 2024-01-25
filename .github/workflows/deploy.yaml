@@ -1,11 +1,6 @@
-# Sample workflow for building and deploying a Gatsby site to GitHub Pages
-#
-# To get started with Gatsby see: https://www.gatsbyjs.com/docs/quick-start/
-#
-name: Deploy Gatsby site to Pages
+name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
 
@@ -90,7 +85,6 @@ jobs:
         with:
           repository: shutter-network/shutter-dao-claiming-app-data
           path: claiming-data
-          ref: 'fix/file-order'
 
       - name: Setup Python
         uses: actions/setup-python@v5
