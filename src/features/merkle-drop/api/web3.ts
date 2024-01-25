@@ -142,11 +142,16 @@ export async function getTokensAvailableForWithdrawal(
     return 0n;
   }
 
-  const amounts = await userPoolContract.methods
-    .calculateVestedAmount(vestingId)
-    .call();
-
-  return BigInt(amounts["vestedAmount"]) - BigInt(amounts["claimedAmount"]);
+  try {
+    const amounts = await userPoolContract.methods
+      .calculateVestedAmount(vestingId)
+      .call();
+    return BigInt(amounts["vestedAmount"]) - BigInt(amounts["claimedAmount"]);
+  } catch (e) {
+    // the contract call can revert if the vesting is not active yet
+    // best to return 0 in such cases
+    return 0n;
+  }
 }
 
 export async function claimTokens(
