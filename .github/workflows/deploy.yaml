@@ -109,7 +109,9 @@ jobs:
 
       - name: Generate vesting data
         working-directory: claiming-data
-        run: venv/bin/python vestings/exporter.py --chain-id 1 --output-directory ../public/static/allocations
+        run: |
+          venv/bin/python vestings/exporter.py --chain-id 1 --output-directory ../public/static/allocations
+          cp vestings/assets/1/external_vestings/0x*.json ../public/static/allocations
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
